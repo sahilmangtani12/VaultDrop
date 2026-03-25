@@ -1,0 +1,57 @@
+[package]
+name = "dabih"
+description = "Command Line Interface for dabih"
+authors = ["Michael Huttner<michael@mhuttner.com>"]
+version = "2.2.15"
+edition = "2024"
+license = "MIT"
+readme = "README.md"
+homepage = "https://github.com/spang-lab/dabih"
+repository = "https://github.com/spang-lab/dabih"
+keywords = ["cli", "dabih"]
+categories = ["command-line-utilities"]
+
+[features]
+default = []
+
+[lib]
+name = "dabih"
+path = "src/lib.rs"
+
+[[bin]]
+name = "dabih"
+path = "src/main.rs"
+
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+futures = "0.3"
+serde = { version = "1.0", features = ["derive"] }
+progenitor-client = "0.11.1"
+serde_json = "1.0"
+serde_yaml = "0.8"
+tokio = { version = "1.47", features = ["fs", "io-util", "macros", "rt-multi-thread"] }
+reqwest = { version = "0.12", features = ["stream", "json"] }
+chrono = { version = "0.4", features = ["serde"] }
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["fmt", "env-filter"] }
+rsa = "0.9.8"
+sha2 = "0.10.9"
+aes = "0.8.4"
+cbc = "0.1.2"
+thiserror = "2.0.16"
+base64ct = "1.8.0"
+clap = {version ="4.5.47", features = ["derive"]}
+glob = "0.3.3"
+pbr = "1.1.1"
+regress = "0.10.4"
+
+[build-dependencies]
+prettyplease = "0.2.22"
+progenitor = "0.11.1"
+openapiv3 = "2.2.0"
+chrono = { version = "0.4", features = ["serde"] }
+serde_json = "1.0"
+syn = "2.0"
+

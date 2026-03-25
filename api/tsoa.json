@@ -1,0 +1,68 @@
+{
+  "entryFile": "src/server.ts",
+  "noImplicitAdditionalProperties": "throw-on-extras",
+  "controllerPathGlobs": [
+    "src/api/**/controller.ts"
+  ],
+  "spec": {
+    "outputDirectory": "build",
+    "specFileBaseName": "spec_tsoa",
+    "specVersion": 3,
+    "securityDefinitions": {
+      "api_key": {
+        "type": "http",
+        "name": "Authorization",
+        "scheme": "bearer"
+      }
+    },
+    "specMerging": "recursive",
+    "spec": {
+      "paths": {
+        "/upload/stream/{mnemonic}/{filename}": {
+          "put": {
+            "requestBody": {
+              "content": {
+                "application/octet-stream": {
+                  "schema": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "/upload/{mnemonic}/chunk": {
+          "put": {
+            "requestBody": {
+              "content": {
+                "multipart/form-data": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "chunk": {
+                        "type": "string",
+                        "format": "binary"
+                      }
+                    }
+                  }
+                },
+                "application/octet-stream": {
+                  "schema": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "routes": {
+    "routesDir": "build",
+    "middleware": "koa",
+    "authenticationModule": "./src/auth.ts"
+  }
+}
