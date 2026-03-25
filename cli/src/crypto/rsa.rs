@@ -1,0 +1,53 @@
+use std::{fs::File, io::Read, path::PathBuf};
+
+use base64ct::{Base64UrlUnpadded, Encoding};
+use rsa::{
+    Oaep, RsaPrivateKey,
+    pkcs8::{DecodePrivateKey, EncodePublicKey},
+};
+use sha2::Digest;
+
+use crate::{api::types::FileDownload, error::Result};
+
+#[derive(Debug, Clone)]
+pub struct PrivateKey {
+    key: RsaPrivateKey,
+}
+impl PrivateKey {
+    pub fn from(path: PathBuf) -> Result<Self> {
+        let mut file = File::open(path)?;
+        let mut content = String::new();
+        file.read_to_string(&mut content)?;
+        let key = RsaPrivateKey::from_pkcs8_pem(&content)?;
+        Ok(Self { key: key })
+    }
+    pub fn hash(&self) -> Result<String> {
+        let pub_key = self.key.to_public_key();
+        let data = pub_key.to_public_key_der()?;
+        let bytes = data.as_bytes();
+
+        let digest = sha2::Sha256::digest(&bytes);
+        let base64 = Base64UrlUnpadded::encode_string(&digest);
+        return Ok(base64);
+    }
+    pub fn decrypt(&self, encrypted: &str) -> Result<Vec<u8>> {
+        let encrypted_bytes = Base64UrlUnpadded::decode_vec(encrypted)?;
+        let padding = Oaep::new::<sha2::Sha256>();
+        let decrypted_data = self.key.decrypt(padding, &encrypted_bytes)?;
+        Ok(decrypted_data)
+    }
+
+    pub fn extract_key(&self, inode: &FileDownload) -> Result<Vec<u8>> {
+        let key_hash = self.hash()?;
+        let encrypted = match inode.keys.iter().find(|k| k.hash == key_hash) {
+            Some(k) => k.key.clone(),
+            None => {
+                return Err(crate::error::CliError::NoDecryptionKey(
+                    inode.mnemonic.clone(),
+                ));
+            }
+        };
+        let decrypted = self.decrypt(&encrypted)?;
+        Ok(decrypted)
+    }
+}
