@@ -1,0 +1,325 @@
+@import "tailwindcss";
+
+@theme {
+  --color-*: initial;
+
+  /* --- Neutral Palette --- */
+  --color-gray-50: #f8fafc;
+  --color-gray-100: #f1f5f9;
+  --color-gray-200: #e2e8f0;
+  --color-gray-300: #cbd5e1;
+  --color-gray-400: #94a3b8;
+  --color-gray-500: #64748b;
+  --color-gray-600: #475569;
+  --color-gray-700: #334155;
+  --color-gray-800: #1e293b;
+  --color-gray-900: #0f172a;
+  --color-gray-950: #020617;
+
+  /* --- Brand --- */
+  --color-primary: #4F46E5;
+  --color-primary-light: #818CF8;
+  --color-primary-dark: #3730A3;
+  --color-accent: #06B6D4;
+  --color-accent-light: #22D3EE;
+  --color-accent-dark: #0891B2;
+
+  /* --- Semantic --- */
+  --color-green: #10B981;
+  --color-blue: #4F46E5;
+  --color-orange: #F59E0B;
+  --color-white: #ffffff;
+  --color-red: #EF4444;
+  --color-transparent: transparent;
+
+  /* --- Animations --- */
+  --animate-spin-slow: spin 1.5s linear infinite;
+  --animate-spin-reverse: reverseSpin 1s linear infinite;
+  --animate-upload: shadowRollingUp 2s linear infinite;
+  --animate-download: shadowRollingDown 2s linear infinite;
+  --animate-shaking: shaking 0.2s linear 2;
+  --animate-fade-in: fadeIn 0.5s ease-out forwards;
+  --animate-slide-up: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  --animate-float: float 8s ease-in-out infinite;
+  --animate-drift: drift 20s ease-in-out infinite;
+  --animate-shimmer: shimmer 3s ease-in-out infinite;
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px) scale(0.98);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  @keyframes float {
+
+    0%,
+    100% {
+      transform: translateY(0) rotate(0deg);
+    }
+
+    33% {
+      transform: translateY(-8px) rotate(1deg);
+    }
+
+    66% {
+      transform: translateY(4px) rotate(-0.5deg);
+    }
+  }
+
+  @keyframes drift {
+
+    0%,
+    100% {
+      transform: translate(0, 0) scale(1);
+    }
+
+    25% {
+      transform: translate(30px, -20px) scale(1.05);
+    }
+
+    50% {
+      transform: translate(-20px, 15px) scale(0.95);
+    }
+
+    75% {
+      transform: translate(15px, 25px) scale(1.02);
+    }
+  }
+
+  @keyframes shimmer {
+
+    0%,
+    100% {
+      opacity: 0.5;
+    }
+
+    50% {
+      opacity: 0.8;
+    }
+  }
+
+  @keyframes shaking {
+    0% {
+      transform: rotate(0deg);
+    }
+
+    25% {
+      transform: rotate(1deg);
+    }
+
+    50% {
+      transform: rotate(0deg);
+    }
+
+    75% {
+      transform: rotate(-1deg);
+    }
+
+    100% {
+      transform: rotate(0deg);
+    }
+  }
+
+  @keyframes reverseSpin {
+    0% {
+      transform: rotate(0deg);
+    }
+
+    100% {
+      transform: rotate(-360deg);
+    }
+  }
+
+  @keyframes shadowRollingUp {
+    0% {
+      box-shadow: 0 0px var(--color-transparent), 0 0px var(--color-transparent), 0 0px var(--color-transparent), 0 0px var(--color-transparent);
+    }
+
+    12% {
+      box-shadow: 0 -200px var(--color-blue), 0 0px var(--color-transparent), 0 0px var(--color-transparent), 0 0px var(--color-transparent);
+    }
+
+    25% {
+      box-shadow: 0 -220px var(--color-blue), 0 -200px var(--color-blue), 0 0px var(--color-transparent), 0 0px var(--color-transparent);
+    }
+
+    36% {
+      box-shadow: 0 -240px var(--color-blue), 0 -220px var(--color-blue), 0 -200px var(--color-blue), 0 0px var(--color-transparent);
+    }
+
+    50% {
+      box-shadow: 0 -260px var(--color-blue), 0 -240px var(--color-blue), 0 -220px var(--color-blue), 0 -200px var(--color-blue);
+    }
+
+    62% {
+      box-shadow: 0 -400px var(--color-transparent), 0 -260px var(--color-blue), 0 -240px var(--color-blue), 0 -220px var(--color-blue);
+    }
+
+    75% {
+      box-shadow: 0 -400px var(--color-transparent), 0 -400px var(--color-transparent), 0 -260px var(--color-blue), 0 -240px var(--color-blue);
+    }
+
+    87% {
+      box-shadow: 0 -400px var(--color-transparent), 0 -400px var(--color-transparent), 0 -400px var(--color-transparent), 0 -260px var(--color-blue);
+    }
+
+    100% {
+      box-shadow: 0 -400px var(--color-transparent), 0 -400px var(--color-transparent), 0 -400px var(--color-transparent), 0 -400px var(--color-transparent);
+    }
+  }
+
+  @keyframes shadowRollingDown {
+    0% {
+      box-shadow: 0 -400px var(--color-transparent), 0 -400px var(--color-transparent), 0 -400px var(--color-transparent), 0 -400px var(--color-transparent);
+    }
+
+    12% {
+      box-shadow: 0 -400px var(--color-transparent), 0 -400px var(--color-transparent), 0 -400px var(--color-transparent), 0 -260px var(--color-blue);
+    }
+
+    25% {
+      box-shadow: 0 -400px var(--color-transparent), 0 -400px var(--color-transparent), 0 -260px var(--color-blue), 0 -240px var(--color-blue);
+    }
+
+    36% {
+      box-shadow: 0 -400px var(--color-transparent), 0 -260px var(--color-blue), 0 -240px var(--color-blue), 0 -220px var(--color-blue);
+    }
+
+    50% {
+      box-shadow: 0 -260px var(--color-blue), 0 -240px var(--color-blue), 0 -220px var(--color-blue), 0 -200px var(--color-blue);
+    }
+
+    62% {
+      box-shadow: 0 -240px var(--color-blue), 0 -220px var(--color-blue), 0 -200px var(--color-blue), 0 0px var(--color-transparent);
+    }
+
+    75% {
+      box-shadow: 0 -220px var(--color-blue), 0 -200px var(--color-blue), 0 0px var(--color-transparent), 0 0px var(--color-transparent);
+    }
+
+    87% {
+      box-shadow: 0 -200px var(--color-blue), 0 0px var(--color-transparent), 0 0px var(--color-transparent), 0 0px var(--color-transparent);
+    }
+
+    100% {
+      box-shadow: 0 0px var(--color-transparent), 0 0px var(--color-transparent), 0 0px var(--color-transparent), 0 0px var(--color-transparent);
+    }
+  }
+}
+
+/* --- Global --- */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: -apple-system, 'SF Pro Display', 'Inter', 'Segoe UI', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: #0a0a0f;
+  color: #ffffff;
+}
+
+/* --- Liquid Glass Surfaces --- */
+.glass {
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(40px) saturate(180%);
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.glass-light {
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(24px) saturate(150%);
+  -webkit-backdrop-filter: blur(24px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.glass-strong {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(60px) saturate(200%);
+  -webkit-backdrop-filter: blur(60px) saturate(200%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(30px) saturate(160%);
+  -webkit-backdrop-filter: blur(30px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  box-shadow:
+    0 4px 24px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-card:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.12);
+  box-shadow:
+    0 8px 40px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  transform: translateY(-2px);
+}
+
+/* --- Stagger --- */
+.stagger>* {
+  opacity: 0;
+  animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.stagger>*:nth-child(1) {
+  animation-delay: 0.05s;
+}
+
+.stagger>*:nth-child(2) {
+  animation-delay: 0.1s;
+}
+
+.stagger>*:nth-child(3) {
+  animation-delay: 0.15s;
+}
+
+.stagger>*:nth-child(4) {
+  animation-delay: 0.2s;
+}
+
+.stagger>*:nth-child(5) {
+  animation-delay: 0.25s;
+}
+
+.stagger>*:nth-child(6) {
+  animation-delay: 0.3s;
+}
+
+.stagger>*:nth-child(7) {
+  animation-delay: 0.35s;
+}
+
+/* --- Selection --- */
+::selection {
+  background: rgba(79, 70, 229, 0.3);
+  color: white;
+}
