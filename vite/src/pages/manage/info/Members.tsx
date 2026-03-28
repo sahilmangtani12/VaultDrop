@@ -1,0 +1,63 @@
+import { InodeMembers, Permission } from "@/lib/api/types";
+import Member from "./Member";
+import AddMember from "./AddMember";
+import { Pluralize } from "@/util";
+import useFiles from "@/lib/hooks/files";
+import useSession from "@/Session";
+
+export default function Members({ inode }: { inode: InodeMembers }) {
+  const { user } = useSession();
+  const parents = useFiles((state) => state.parents);
+  const searchStatus = useFiles((state) => state.searchStatus);
+  if (!user || searchStatus !== "idle") {
+    return null;
+  }
+  const nodes = [inode, ...parents].reverse();
+  const writeIdx = nodes.findIndex((node) =>
+    node.members.find((member) => member.sub === user.sub && member.permission === Permission.WRITE));
+
+  const entries = nodes.flatMap((node, idx) => {
+    return node.members.map((member) => {
+      return {
+        key: `${node.mnemonic}-${member.sub}`,
+        inode: node,
+        member,
+        readOnly: writeIdx === -1 || idx < writeIdx,
+        isParent: node.mnemonic !== inode.mnemonic,
+      };
+    });
+  }).sort((m1, m2) => m1.member.sub.localeCompare(m2.member.sub));
+
+  const hasWrite = writeIdx !== -1;
+
+
+  return (
+    <div className="px-3">
+      <div className="flex items-center justify-between">
+        <h3
+          className="text-sm font-semibold text-white/70"
+        >
+          Access
+        </h3>
+        <div className="text-xs font-medium text-white/40 px-3">
+          {entries.length}
+          <Pluralize count={entries.length}> user</Pluralize>
+        </div>
+      </div>
+
+      <div className="max-h-72 overflow-y-auto custom-scrollbar glass rounded-xl divide-y divide-white/[0.04] p-1 mt-2">
+        {entries.map((e) => (
+          <Member
+            key={e.key}
+            inode={e.inode}
+            member={e.member}
+            readOnly={e.readOnly}
+            isParent={e.isParent}
+          />
+        ))}
+      </div>
+      <AddMember hidden={!hasWrite} inode={inode} />
+    </div>
+  );
+
+}
