@@ -1,0 +1,149 @@
+'use client';
+
+import { useState, useCallback, useEffect } from 'react';
+import api from '@/lib/api';
+import { Plus } from 'react-feather';
+import { Switch } from '@/util';
+
+import { UserResponse } from '@/lib/api/types';
+import DeleteDialog from '@/dialog/Delete';
+import CreateKeyDialog from '@/dialog/CreateKey';
+import { KeyRemoveBody } from '@/lib/api/types';
+import PublicKey from './PublicKey';
+import User from './User';
+import useSession from '@/Session';
+
+
+export default function PublicKeys() {
+  const { user, update, isAdmin, hasApi } = useSession();
+  const [users, setUsers] = useState<UserResponse[]>([]);
+  const [rootOnly, setRootOnly] = useState<boolean>(false);
+  const [toRemove, setToRemove] = useState<KeyRemoveBody | null>(null);
+  const [showGenerate, setShowGenerate] = useState(false);
+
+
+
+  const fetchKeys = useCallback(async () => {
+    if (!hasApi) {
+      return;
+    }
+
+
+    const { data, error } = await api.user.list();
+    if (error) {
+      return;
+    }
+    setUsers(data);
+  }, [hasApi]);
+
+  const enableKey = async (sub: string, hash: string, enabled: boolean) => {
+    await api.user.enableKey({
+      sub,
+      hash,
+      enabled,
+    });
+    await fetchKeys();
+    await update();
+  };
+
+  const removeKey = async (req: KeyRemoveBody) => {
+    await api.user.removeKey(req);
+    await fetchKeys();
+  };
+
+  const removeUser = async (sub: string) => {
+    await api.user.remove(sub);
+    await fetchKeys();
+  }
+
+  const setAdmin = async (sub: string, admin: boolean) => {
+    await api.user.setAdmin(
+      sub,
+      admin,
+    );
+    await fetchKeys();
+  };
+
+
+
+  const uploadKey = async (publicKey: JsonWebKey) => {
+    if (!user) {
+      return;
+    }
+    await api.user.addKey({
+      sub: user.sub,
+      data: { ...publicKey },
+      isRootKey: true,
+    });
+    await fetchKeys();
+    await update();
+  };
+
+
+  useEffect(() => {
+    fetchKeys().catch(console.error);
+  }, [fetchKeys]);
+
+
+
+  return (
+    <div className="py-2">
+      <CreateKeyDialog
+        show={showGenerate}
+        onClose={() => setShowGenerate(false)}
+        onSubmit={(k) => void uploadKey(k)} />
+      <DeleteDialog
+        type="public key"
+        name={toRemove?.hash ?? ''}
+        show={!!toRemove}
+        onSubmit={() => void removeKey(toRemove!)}
+        onClose={() => setToRemove(null)}
+      />
+      <div className="inline-flex items-center mb-3">
+        <Switch enabled={rootOnly} onChange={() => setRootOnly(!rootOnly)} />
+        <span className="px-2 text-white/50 text-sm font-medium">
+          Show only root keys
+        </span>
+      </div>
+      <div className="max-h-96 overflow-y-auto space-y-1">
+        {users.flatMap((u) => (
+          u.keys.map((k) => (
+            <PublicKey
+              key={k.hash}
+              publicKey={k}
+              user={u}
+              show={!rootOnly || k.isRootKey}
+              isAdmin={isAdmin}
+              onRemove={() => setToRemove({ sub: u.sub, hash: k.hash })}
+              onEnable={(e: boolean) => void enableKey(u.sub, k.hash, e)}
+            />
+          )))
+        )}
+      </div>
+      <div hidden={!isAdmin} className="mt-3">
+        <button
+          className="glass-strong rounded-xl px-3 py-2 text-white font-medium text-sm inline-flex items-center hover:bg-white/[0.12] transition-all duration-300"
+          type="button"
+          onClick={() => setShowGenerate(true)}
+        >
+          <Plus className="mr-1.5 text-white/60" size={16} />
+          Generate new root key
+        </button>
+      </div>
+      <div hidden={!isAdmin} className="mt-6">
+        <h2 className="text-lg font-semibold text-white mb-2">
+          Users
+        </h2>
+        {users.map((u) => (
+          <User
+            key={u.sub}
+            user={u}
+            isAdmin={isAdmin}
+            onRemove={removeUser}
+            onChange={setAdmin}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
