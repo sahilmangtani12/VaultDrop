@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dabih — Database Schema Diagram</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0f0c29, #1a1a3e, #24243e);
+            color: #e0e0e0;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #667eea, #764ba2, #f093fb);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            color: #9ca3af;
+            font-weight: 300;
+        }
+
+        .diagram-container {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2.5rem;
+            backdrop-filter: blur(10px);
+            overflow-x: auto;
+        }
+
+        .diagram-container h2 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            padding-left: 1rem;
+            border-left: 4px solid #667eea;
+            color: #c4b5fd;
+        }
+
+        .mermaid {
+            display: flex;
+            justify-content: center;
+        }
+
+        .legend {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .legend-card {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 1.2rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .legend-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .legend-card h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .legend-card p {
+            font-size: 0.85rem;
+            color: #9ca3af;
+            line-height: 1.5;
+        }
+
+        .legend-card .badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            margin-right: 4px;
+        }
+
+        .badge-pk {
+            background: #7c3aed33;
+            color: #a78bfa;
+        }
+
+        .badge-fk {
+            background: #2563eb33;
+            color: #60a5fa;
+        }
+
+        .badge-uk {
+            background: #059669e0;
+            color: #6ee7b7;
+        }
+
+        .user-color {
+            color: #c084fc;
+        }
+
+        .inode-color {
+            color: #fb923c;
+        }
+
+        .file-color {
+            color: #34d399;
+        }
+
+        .access-color {
+            color: #60a5fa;
+        }
+
+        .token-color {
+            color: #f87171;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 2rem;
+            color: #6b7280;
+            font-size: 0.8rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <h1>🗄️ Dabih — Database Schema</h1>
+        <p>Entity-Relationship Diagram · PostgreSQL via Prisma ORM · 8 Models</p>
+    </div>
+
+    <div class="diagram-container">
+        <h2>Entity-Relationship Diagram</h2>
+        <div class="mermaid">
+            erDiagram
+            User {
+            BigInt id PK
+            String sub UK
+            String email UK
+            String scope
+            DateTime lastAuthAt
+            DateTime createdAt
+            DateTime updatedAt
+            }
+
+            PublicKey {
+            BigInt id PK
+            BigInt userId FK
+            String hash UK
+            String data
+            Boolean isRootKey
+            DateTime enabled
+            String enabledBy
+            DateTime createdAt
+            DateTime updatedAt
+            }
+
+            Inode {
+            BigInt id PK
+            String mnemonic UK
+            Int type
+            String name
+            String tag
+            BigInt dataId FK
+            BigInt parentId FK
+            DateTime createdAt
+            DateTime updatedAt
+            }
+
+            FileData {
+            BigInt id PK
+            String uid UK
+            String createdBy
+            String fileName
+            String filePath
+            String hash
+            BigInt size
+            String keyHash
+            DateTime createdAt
+            DateTime updatedAt
+            }
+
+            Chunk {
+            BigInt id PK
+            BigInt dataId FK
+            String hash
+            String iv
+            BigInt start
+            BigInt end
+            String crc
+            DateTime createdAt
+            DateTime updatedAt
+            }
+
+            Member {
+            BigInt id PK
+            String sub
+            BigInt inodeId FK
+            Int permission
+            DateTime createdAt
+            DateTime updatedAt
+            }
+
+            Key {
+            BigInt id PK
+            BigInt inodeId FK
+            String hash
+            String key
+            DateTime createdAt
+            DateTime updatedAt
+            }
+
+            Token {
+            BigInt id PK
+            String value UK
+            String sub
+            String scope
+            DateTime exp
+            DateTime createdAt
+            DateTime updatedAt
+            }
+
+            User ||--o{ PublicKey : "owns"
+            Inode ||--o{ Member : "has members"
+            Inode ||--o{ Key : "has encrypted keys"
+            Inode }o--o| FileData : "references"
+            Inode }o--o| Inode : "parent-child tree"
+            FileData ||--o{ Chunk : "split into"
+        </div>
+    </div>
+
+    <div class="header" style="margin-top:1rem;">
+        <h2 style="font-size:1.5rem; color:#c4b5fd;">📋 Table Reference</h2>
+    </div>
+
+    <div class="legend">
+        <div class="legend-card" style="border-left: 3px solid #c084fc;">
+            <h3 class="user-color">👤 User</h3>
+            <p>Stores authenticated users. Each user has a unique <code>sub</code> (subject identifier from OIDC) and
+                <code>email</code>. The <code>scope</code> field holds space-separated permissions: <span
+                    class="badge badge-pk">dabih:base</span> <span class="badge badge-fk">dabih:api</span> <span
+                    class="badge badge-uk">dabih:admin</span></p>
+        </div>
+        <div class="legend-card" style="border-left: 3px solid #c084fc;">
+            <h3 class="user-color">🔑 PublicKey</h3>
+            <p>RSA public keys belonging to users. Keys start <em>disabled</em> (pending approval). Once enabled,
+                they're used to encrypt file AES keys and sign refresh tokens. <code>isRootKey</code> marks
+                organization-wide recovery keys.</p>
+        </div>
+        <div class="legend-card" style="border-left: 3px solid #fb923c;">
+            <h3 class="inode-color">📁 Inode</h3>
+            <p>Virtual filesystem node — can be a FILE, DIRECTORY, UPLOAD (in-progress), TRASH, ROOT, or HOME. Uses
+                human-memorable <code>mnemonic</code> identifiers. Self-referencing <code>parentId</code> creates the
+                directory tree.</p>
+        </div>
+        <div class="legend-card" style="border-left: 3px solid #34d399;">
+            <h3 class="file-color">💾 FileData</h3>
+            <p>Stores file metadata. <code>uid</code> is the storage bucket identifier. <code>keyHash</code> is the
+                SHA-256 of the AES encryption key. <code>size</code> is null during upload and set when finalized.</p>
+        </div>
+        <div class="legend-card" style="border-left: 3px solid #34d399;">
+            <h3 class="file-color">🧩 Chunk</h3>
+            <p>Individual encrypted pieces of a file. Each chunk has its own AES <code>iv</code>, byte range
+                (<code>start</code>–<code>end</code>), SHA-256 <code>hash</code> for integrity, and <code>crc</code> for
+                error detection.</p>
+        </div>
+        <div class="legend-card" style="border-left: 3px solid #60a5fa;">
+            <h3 class="access-color">👥 Member</h3>
+            <p>Maps users to inodes with permissions: <span class="badge badge-pk">0=NONE</span> <span
+                    class="badge badge-fk">1=READ</span> <span class="badge badge-uk">2=WRITE</span>. Unique constraint
+                on (sub, inodeId) prevents duplicates.</p>
+        </div>
+        <div class="legend-card" style="border-left: 3px solid #60a5fa;">
+            <h3 class="access-color">🔐 Key</h3>
+            <p>Stores the file's AES encryption key, RSA-encrypted with a user's public key. Each file has one Key entry
+                per authorized public key, enabling multi-user decryption.</p>
+        </div>
+        <div class="legend-card" style="border-left: 3px solid #f87171;">
+            <h3 class="token-color">🎫 Token</h3>
+            <p>Long-lived API access tokens (alternative to JWT). Used by CLI and automation. Scoped permissions with
+                optional expiration. Stored in DB for instant revocation.</p>
+        </div>
+    </div>
+
+    <footer>
+        <p>Dabih API v2.2.15 · PostgreSQL · Prisma ORM · Generated Feb 2026</p>
+    </footer>
+
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'dark',
+            themeVariables: {
+                primaryColor: '#4f46e5',
+                primaryTextColor: '#e0e0e0',
+                edgeLabelBackground: '#1a1a3e',
+                lineColor: '#6366f1',
+                fontSize: '14px'
+            },
+            er: {
+                diagramPadding: 20,
+                layoutDirection: 'TB',
+                minEntityWidth: 100,
+                minEntityHeight: 75,
+                entityPadding: 15
+            }
+        });
+    </script>
+</body>
+
+</html>

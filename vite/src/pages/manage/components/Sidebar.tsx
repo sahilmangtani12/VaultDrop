@@ -1,11 +1,14 @@
 import { useState } from 'react';
 import { Folder, Users, Trash2, Home, Star } from 'react-feather';
 import useFiles from '@/lib/hooks/files';
+import useSession from '@/Session';
+import Bytes from '@/util/Bytes';
 
 export default function Sidebar() {
   const list = useFiles((state) => state.list);
   const listShared = useFiles((state) => state.shared);
   const search = useFiles((state) => state.search);
+  const { user } = useSession();
 
   const navBtnClass = (isActive: boolean) =>
     `flex w-full items-center gap-3 px-3 py-2 rounded-xl transition-all duration-200 ${
@@ -24,6 +27,10 @@ export default function Sidebar() {
     if (tab === 'starred') search('starred');
     // Trash would have its own fetch list methods here
   };
+
+  const usedStorage = user?.storageUsed || 0;
+  const maxStorage = 15 * 1024 * 1024 * 1024; // 15 GB
+  const usedPercentage = Math.min(100, Math.max(0, (usedStorage / maxStorage) * 100));
 
   return (
     <div className="w-64 shrink-0 flex flex-col h-[calc(100vh-100px)] py-4 pl-2 pr-4 select-none">
@@ -56,9 +63,9 @@ export default function Sidebar() {
                 <Folder size={18} className="text-white border-white/20" />
             </div>
             <h4 className="text-white text-sm font-medium">Storage Details</h4>
-            <p className="text-white/40 text-xs">Used 450 MB of 2 GB</p>
+            <p className="text-white/40 text-xs">Used <Bytes value={usedStorage} decimals={1} binary={false} /> of 15 GB</p>
             <div className="w-full bg-white/10 rounded-full h-1.5 mt-1 overflow-hidden">
-                <div className="bg-blue-400 h-1.5 rounded-full" style={{ width: '22%' }}></div>
+                <div className={`h-1.5 rounded-full ${usedPercentage > 90 ? 'bg-red-400' : usedPercentage > 75 ? 'bg-yellow-400' : 'bg-blue-400'}`} style={{ width: `${usedPercentage}%` }}></div>
             </div>
         </div>
       </div>

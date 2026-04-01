@@ -5,6 +5,7 @@ import useFinder from "./Context";
 import InodeInfo from "./info/Inode";
 import Members from "./info/Members";
 import Buttons from "./info/Buttons";
+import PreviewPane from "./info/PreviewPane";
 import { X } from "react-feather";
 
 export default function Info() {
@@ -37,6 +38,7 @@ export default function Info() {
         {selectedNodes.length === 1 ? (
           <div className="space-y-6">
             <InodeInfo inode={selectedNodes[0]} />
+            <PreviewPane inode={selectedNodes[0]} />
             <Members inode={selectedNodes[0]} />
           </div>
         ) : selectedNodes.length > 1 ? (

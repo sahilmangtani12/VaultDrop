@@ -119,4 +119,8 @@ export interface UserResponse {
    * The public keys of the user
    */
   keys: PublicKey[];
+  /**
+   * The total live storage size used by the user's files in bytes.
+   */
+  storageUsed?: number;
 }

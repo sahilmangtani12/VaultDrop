@@ -68,6 +68,7 @@ const models: TsoaRoute.Models = {
             "createdAt": {"dataType":"datetime","required":true},
             "updatedAt": {"dataType":"datetime","required":true},
             "keys": {"dataType":"array","array":{"dataType":"refObject","ref":"PublicKey"},"required":true},
+            "storageUsed": {"dataType":"double"},
         },
         "additionalProperties": false,
     },

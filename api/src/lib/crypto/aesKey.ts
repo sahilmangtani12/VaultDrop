@@ -49,25 +49,30 @@ const decrypt = (key: string, iv: string): any => {
 
 const encryptString = (key: string, iv: string, data: string) => {
   const cipher = encrypt(key, iv);
-  const encrypted = cipher.update(data, 'utf8', 'base64url');
-  return encrypted + cipher.final('base64url');
+  const p1 = cipher.update(Buffer.from(data, 'utf8'));
+  const p2 = cipher.final();
+  return Buffer.concat([p1, p2]).toString('base64url');
 };
 
 const encryptSecret = (key: string, iv: string, data: string) => {
   const cipher = encrypt(key, iv);
-  const encrypted = cipher.update(data, 'base64url', 'base64url');
-  return encrypted + cipher.final('base64url');
+  const p1 = cipher.update(Buffer.from(data, 'base64url'));
+  const p2 = cipher.final();
+  return Buffer.concat([p1, p2]).toString('base64url');
 };
+
 const decryptSecret = (key: string, iv: string, data: string) => {
   const decipher = decrypt(key, iv);
-  const decrypted = decipher.update(data, 'base64url', 'base64url');
-  return decrypted + decipher.final('base64url');
+  const p1 = decipher.update(Buffer.from(data, 'base64url'));
+  const p2 = decipher.final();
+  return Buffer.concat([p1, p2]).toString('base64url');
 };
 
 const decryptString = (key: string, iv: string, data: string) => {
   const decipher = decrypt(key, iv);
-  const decrypted = decipher.update(data, 'base64url', 'utf8');
-  return decrypted + decipher.final('utf8');
+  const p1 = decipher.update(Buffer.from(data, 'base64url'));
+  const p2 = decipher.final();
+  return Buffer.concat([p1, p2]).toString('utf8');
 };
 
 const toHash = (key: string) => {

@@ -96,14 +96,14 @@ export default function Transfers() {
 
 
   return (
-    <div className="fixed bottom-4 right-2 sm:bottom-6 sm:right-6 p-2 w-[calc(100vw-1rem)] sm:w-[480px] z-40" hidden={transfers.length === 0}>
+    <div className="fixed bottom-4 right-2 sm:bottom-6 sm:right-6 p-2 w-[calc(100vw-1rem)] sm:w-[480px] z-40" hidden={transfers.filter(t => !(t.type === "download" && t.isPreview)).length === 0}>
       <Disclosure defaultOpen={true}>
         <DisclosurePanel
           transition
           className="origin-bottom transition duration-200 ease-out data-closed:translate-y-3 data-closed:opacity-0 pb-2"
         >
           <div className="glass-strong rounded-xl p-3">
-            {transfers.map((transfer) => (
+            {transfers.filter(t => !(t.type === "download" && t.isPreview)).map((transfer) => (
               <Transfer key={transfer.id} data={transfer} />
             ))}
           </div>
@@ -113,7 +113,7 @@ export default function Transfers() {
             <ChevronRight size={16} className="group-data-open:-rotate-90 transition-transform duration-200 mr-1" />
             Transfers
             <div className="absolute bg-orange text-white text-[10px] flex justify-center items-center w-5 h-5 rounded-full -top-1 -right-1 font-bold">
-              {transfers.length}
+              {transfers.filter(t => !(t.type === "download" && t.isPreview)).length}
             </div>
           </DisclosureButton>
         </div>

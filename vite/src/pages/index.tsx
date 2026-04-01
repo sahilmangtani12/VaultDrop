@@ -128,27 +128,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── Trusted By ── */}
-      {(d.name || o.name) && (
-        <section className="py-10">
-          <div className="max-w-6xl mx-auto px-6 flex flex-wrap items-center justify-center gap-8 lg:gap-14">
-            <span className="text-[10px] text-white/20 uppercase tracking-[0.2em]">Trusted by</span>
-            {d.name && (
-              <a href={d.url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-white/25 hover:text-white/50 transition-colors duration-300">
-                {d.logo && <img className="w-8 h-8 object-contain opacity-40" src={d.logo} alt={`${d.name} logo`} />}
-                <span className="font-medium text-sm">{d.name}</span>
-              </a>
-            )}
-            {o.name && (
-              <a href={o.url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-white/25 hover:text-white/50 transition-colors duration-300">
-                {o.logo && <img className="w-7 h-7 object-contain opacity-40" src={o.logo} alt={`${o.name} logo`} />}
-                <span className="font-medium text-sm">{o.name}</span>
-              </a>
-            )}
-          </div>
-        </section>
-      )}
-
       {/* ── Features ── */}
       <section className="py-16 lg:py-20">
         <div className="max-w-6xl mx-auto px-6">

@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dabih — System Architecture Diagrams</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0f0c29, #1a1a3e, #24243e);
+            color: #e0e0e0;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #667eea, #764ba2, #f093fb);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            color: #9ca3af;
+            font-weight: 300;
+        }
+
+        .section {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2.5rem;
+            backdrop-filter: blur(10px);
+            overflow-x: auto;
+        }
+
+        .section h2 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            padding-left: 1rem;
+            border-left: 4px solid #667eea;
+            color: #c4b5fd;
+        }
+
+        .section h2 span {
+            font-size: 0.8rem;
+            font-weight: 400;
+            color: #6b7280;
+            display: block;
+            margin-top: 0.3rem;
+        }
+
+        .mermaid {
+            display: flex;
+            justify-content: center;
+        }
+
+        .section-desc {
+            background: rgba(99, 102, 241, 0.08);
+            border-radius: 10px;
+            padding: 1rem 1.5rem;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+            color: #a5b4fc;
+            line-height: 1.6;
+        }
+
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .tech-card {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 1rem;
+            text-align: center;
+            transition: transform 0.2s;
+        }
+
+        .tech-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .tech-card .icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .tech-card h4 {
+            font-size: 0.9rem;
+            margin-bottom: 0.3rem;
+            color: #e0e0e0;
+        }
+
+        .tech-card p {
+            font-size: 0.75rem;
+            color: #9ca3af;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 2rem;
+            color: #6b7280;
+            font-size: 0.8rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+        <h1>🏗️ Dabih — System Architecture</h1>
+        <p>Complete Architecture Diagrams · Koa.js + TypeScript + PostgreSQL + Redis</p>
+    </div>
+
+    <!-- ==================== PART 1: HIGH-LEVEL OVERVIEW ==================== -->
+    <div class="section">
+        <h2>Part 1: High-Level System Overview <span>How all components connect together</span></h2>
+        <div class="section-desc">
+            The system consists of a <strong>Koa.js HTTP server</strong> with auto-generated TSOA routes, backed by
+            <strong>PostgreSQL</strong> (via Prisma ORM)
+            and <strong>Redis</strong> for ephemeral state. Files are stored encrypted on a <strong>pluggable storage
+                backend</strong>. Authentication is handled
+            via <strong>OpenID Connect</strong> (SSO) or <strong>email magic links</strong> (Resend).
+        </div>
+        <div class="mermaid">
+            graph TB
+            subgraph CLIENTS["👥 Clients"]
+            CLI["🖥️ CLI Client"]
+            WEB["🌐 Vite SPA"]
+            end
+
+            subgraph SERVER["🚀 Koa.js HTTP Server :8080"]
+            direction TB
+            MW["⚙️ Middleware: log → error → serialize"]
+            ROUTER["📡 TSOA Router /api/v1"]
+            MW --> ROUTER
+            end
+
+            subgraph CONTROLLERS["📦 API Controllers"]
+            direction LR
+            AUTH["🔐 Auth"]
+            UPLOAD["📤 Upload"]
+            DOWNLOAD["📥 Download"]
+            FS["📁 Filesystem"]
+            USER["👤 User"]
+            TOKEN["🎫 Token"]
+            FILEDATA["💾 FileData"]
+            JOB["⚡ Job"]
+            UTIL["ℹ️ Util"]
+            end
+
+            subgraph LIB["📚 Library Layer"]
+            direction LR
+            CRYPTO["🔒 Crypto"]
+            DBHELP["🗃️ DB Helpers"]
+            STORE["💿 Storage"]
+            end
+
+            subgraph EXT["🌍 External Services"]
+            PG[("🐘 PostgreSQL")]
+            REDIS[("🔴 Redis")]
+            OIDC["☁️ OIDC Provider"]
+            RESEND["📧 Resend Email"]
+            end
+
+            subgraph WORKER["🔄 Background"]
+            PISC["🧵 Piscina Pool"]
+            end
+
+            CLI -->|"Bearer Token"| SERVER
+            WEB -->|"JWT"| SERVER
+            ROUTER --> CONTROLLERS
+            CONTROLLERS --> LIB
+            AUTH --> OIDC
+            AUTH --> RESEND
+            DBHELP --> PG
+            CRYPTO --> REDIS
+            STORE -->|"fs:./data"| PG
+            FS --> PISC
+            PISC --> REDIS
+            PISC --> PG
+
+            classDef ext fill:#4f46e520,stroke:#6366f1,color:#c4b5fd
+            classDef db fill:#1e3a5f,stroke:#3b82f6,color:#93c5fd
+            class PG,REDIS db
+            class OIDC,RESEND ext
+        </div>
+    </div>
+
+    <!-- ==================== PART 2: AUTH FLOWS ==================== -->
+    <div class="section">
+        <h2>Part 2: Authentication Flows <span>OIDC Login · Email Magic Link · Token Refresh</span></h2>
+        <div class="section-desc">
+            Dabih supports <strong>dual authentication</strong>: OpenID Connect with PKCE for institutional SSO, and
+            email magic links for standalone deployments.
+            Both flows produce a <strong>JWT token</strong> signed with rotating secrets stored in Redis. Long-lived
+            <strong>DB tokens</strong> serve CLI/automation.
+        </div>
+        <div class="mermaid">
+            sequenceDiagram
+            participant U as 👤 User
+            participant F as 🌐 Frontend
+            participant A as 🔐 Auth API
+            participant R as 🔴 Redis
+            participant DB as 🐘 PostgreSQL
+            participant OIDC as ☁️ OIDC Provider
+            participant EM as 📧 Resend
+
+            Note over U,EM: 🔵 OIDC Login Flow (with PKCE)
+            U->>F: Click "Login"
+            F->>A: GET /auth/login
+            A->>A: Generate PKCE verifier + state
+            A->>R: Store code_verifier (10min TTL)
+            A->>F: 302 Redirect to OIDC
+            F->>OIDC: User authenticates
+            OIDC->>A: GET /auth/callback?code=...&state=...
+            A->>R: Retrieve code_verifier
+            A->>OIDC: Exchange code for access_token
+            A->>OIDC: GET /userinfo (sub, email)
+            A->>DB: Upsert User record
+            A->>R: Get AUTH secret
+            A->>A: Sign JWT {sub, scope}
+            A->>F: Redirect /signin/success/{jwt}
+
+            Note over U,EM: 🟢 Email Magic Link Flow
+            U->>F: Enter email
+            F->>A: POST /auth/signIn {email}
+            A->>R: Rate limit check (3/min)
+            A->>R: Get EMAIL secret
+            A->>A: Sign email JWT {sub, email}
+            A->>EM: Send magic link email
+            EM->>U: Click verification link
+            U->>F: GET /verify/{token}
+            F->>A: POST /auth/verify {token}
+            A->>R: Verify with EMAIL secrets
+            A->>DB: Create/update User
+            A->>R: Get AUTH secret
+            A->>A: Sign auth JWT
+            A-->>F: Return JWT
+
+            Note over U,EM: 🟠 Token Refresh
+            U->>F: JWT expiring
+            F->>A: POST /auth/refresh {RSA-signed token}
+            A->>DB: Fetch user's public keys
+            A->>A: Verify RSA signature
+            A->>A: Check lastAuthAt < 2 weeks A->>R: Get AUTH secret
+                A->>A: Sign new JWT
+                A-->>F: Return new JWT
+        </div>
+    </div>
+
+    <!-- ==================== PART 3: DATA FLOW ==================== -->
+    <div class="section">
+        <h2>Part 3: Encrypted Upload & Download Pipeline <span>End-to-end encryption with chunked storage</span></h2>
+        <div class="section-desc">
+            Files are split into chunks, each independently encrypted with <strong>AES-256-CBC</strong>. The AES key is
+            encrypted with each authorized user's
+            <strong>RSA public key</strong> and stored in the Key table. Only the key owner can decrypt. The server
+            holds plaintext keys
+            <strong>only ephemerally in Redis</strong> during active upload/download sessions.
+        </div>
+        <div class="mermaid">
+            sequenceDiagram
+            participant C as 🖥️ Client
+            participant API as 🚀 Upload API
+            participant R as 🔴 Redis
+            participant DB as 🐘 PostgreSQL
+            participant FS as 💿 Storage
+
+            Note over C,FS: 📤 UPLOAD FLOW
+            C->>API: POST /upload/start {fileName, directory}
+            API->>API: Generate AES-256 key
+            API->>DB: Create FileData {uid, keyHash}
+            API->>DB: Create Inode {type=UPLOAD}
+            API->>DB: Encrypt AES key with each RSA pubkey → Key table
+            API->>R: Store plaintext AES key (1hr TTL)
+            API->>FS: Create storage bucket /{uid}/
+            API-->>C: Return {mnemonic, data}
+
+            loop For each chunk
+            C->>API: PUT /upload/{mnemonic}/chunk
+            Note right of C: Headers: content-range, digest
+            API->>R: Read AES key
+            API->>API: Validate → AES Encrypt → CRC-32
+            API->>FS: Write encrypted chunk /{uid}/{hash}
+            API->>DB: Create Chunk {hash, iv, start, end, crc}
+            API-->>C: Return chunk record
+            end
+
+            C->>API: POST /upload/{mnemonic}/finish
+            API->>DB: Validate chunk contiguity
+            API->>DB: Compute composite hash, set size
+            API->>DB: Inode type: UPLOAD → FILE
+            API->>R: Delete ephemeral AES key
+            API-->>C: Return completed file
+
+            Note over C,FS: 📥 DOWNLOAD FLOW
+            C->>API: POST /download/{mnemonic}/decrypt {key}
+            Note right of C: Client decrypted AES key from Key table using RSA private key
+            API->>DB: Verify keyHash matches
+            API->>R: Store AES key (1hr TTL)
+            API->>DB: Create scoped Token (30s TTL)
+            API-->>C: Return download token
+
+            C->>API: GET /download/ (Bearer: scoped-token)
+            API->>R: Read AES key
+            API->>DB: Fetch all chunks
+            loop For each chunk
+            API->>FS: Read encrypted chunk
+            API->>API: AES Decrypt
+            API-->>C: Stream decrypted data
+            end
+        </div>
+    </div>
+
+    <!-- ==================== PART 4: FILESYSTEM TREE ==================== -->
+    <div class="section">
+        <h2>Part 4: Virtual Filesystem Structure <span>Inode tree hierarchy with permissions</span></h2>
+        <div class="section-desc">
+            The filesystem uses a <strong>Unix-like inode tree</strong>. A single ROOT inode contains HOME directories
+            per user.
+            Each HOME has a TRASH bin. Files and directories are identified by human-memorable
+            <strong>mnemonics</strong>.
+            Access is controlled through <strong>Member</strong> records with READ/WRITE permissions.
+        </div>
+        <div class="mermaid">
+            graph TD
+            ROOT["📁 ROOT (type=11)"]
+
+            HOME1["🏠 user@example.com (type=12, HOME)"]
+            HOME2["🏠 admin@example.com (type=12, HOME)"]
+
+            TRASH1["🗑️ Bin (type=10, TRASH)"]
+            DIR1["📂 Projects (type=1, DIRECTORY)"]
+            DIR2["📂 Data (type=1, DIRECTORY)"]
+
+            FILE1["📄 report.pdf (type=0, FILE)"]
+            FILE2["📄 dataset.csv (type=0, FILE)"]
+            UPLOAD1["⏳ analysis.xlsx (type=2, UPLOAD)"]
+            FILE3["📄 old_file.txt (type=0, FILE)"]
+
+            ROOT --> HOME1
+            ROOT --> HOME2
+
+            HOME1 --> TRASH1
+            HOME1 --> DIR1
+            HOME1 --> DIR2
+
+            DIR1 --> FILE1
+            DIR2 --> FILE2
+            DIR2 --> UPLOAD1
+
+            TRASH1 --> FILE3
+
+            style ROOT fill:#4f46e5,color:white
+            style HOME1 fill:#7c3aed,color:white
+            style HOME2 fill:#7c3aed,color:white
+            style TRASH1 fill:#dc2626,color:white
+            style DIR1 fill:#2563eb,color:white
+            style DIR2 fill:#2563eb,color:white
+            style FILE1 fill:#059669,color:white
+            style FILE2 fill:#059669,color:white
+            style UPLOAD1 fill:#d97706,color:white
+            style FILE3 fill:#059669,color:white
+        </div>
+    </div>
+
+    <!-- ==================== PART 5: REDIS STATE ==================== -->
+    <div class="section">
+        <h2>Part 5: Redis Ephemeral State Management <span>All transient data lives in Redis with automatic TTL
+                expiration</span></h2>
+        <div class="section-desc">
+            Redis serves as the ephemeral state layer. Rotating JWT signing secrets, temporary AES keys, PKCE verifiers,
+            rate limits, and background job
+            results all live here with natural TTL-based expiration — keeping PostgreSQL clean and focused on persistent
+            data.
+        </div>
+        <div class="mermaid">
+            graph LR
+            subgraph REDIS["🔴 Redis Key Spaces"]
+            direction TB
+            S["🔑 secret:auth<br />secret:email<br /><i>Rotating JWT secrets</i><br />TTL: 24h, 5-deep list"]
+            A["🔐 aesKey:{sub}:{mnemonic}<br /><i>Ephemeral AES keys</i><br />TTL: 1 hour"]
+            CV["📋 codeVerifier:{state}<br /><i>PKCE code verifiers</i><br />TTL: 10 min"]
+            RL["🚦 rateLimit:{ip}<br /><i>3 requests per 60s</i><br />TTL: 60 sec"]
+            J["⚡ job:{id}:meta + :data<br /><i>Background search jobs</i><br />No TTL (manual cleanup)"]
+            end
+
+            AUTH["🔐 Auth Service"] --> S
+            AUTH --> CV
+            AUTH --> RL
+            UPL["📤 Upload"] --> A
+            DL["📥 Download"] --> A
+            SEARCH["🔍 Search Worker"] --> J
+            JOB["⚡ Job Service"] --> J
+
+            style S fill:#7c3aed30,stroke:#8b5cf6,color:#c4b5fd
+            style A fill:#059669e0,stroke:#10b981,color:#ffffff
+            style CV fill:#2563eb30,stroke:#3b82f6,color:#93c5fd
+            style RL fill:#dc262630,stroke:#ef4444,color:#fca5a5
+            style J fill:#d9770630,stroke:#f59e0b,color:#fcd34d
+        </div>
+    </div>
+
+    <!-- ==================== TECH STACK ==================== -->
+    <div class="section">
+        <h2>Tech Stack Summary</h2>
+        <div class="tech-grid">
+            <div class="tech-card">
+                <div class="icon">🟢</div>
+                <h4>Koa.js 3</h4>
+                <p>HTTP framework</p>
+            </div>
+            <div class="tech-card">
+                <div class="icon">📘</div>
+                <h4>TypeScript 5</h4>
+                <p>Type safety</p>
+            </div>
+            <div class="tech-card">
+                <div class="icon">📡</div>
+                <h4>TSOA 6</h4>
+                <p>OpenAPI + Routes</p>
+            </div>
+            <div class="tech-card">
+                <div class="icon">🐘</div>
+                <h4>PostgreSQL 17</h4>
+                <p>Primary database</p>
+            </div>
+            <div class="tech-card">
+                <div class="icon">🔷</div>
+                <h4>Prisma 6</h4>
+                <p>ORM + migrations</p>
+            </div>
+            <div class="tech-card">
+                <div class="icon">🔴</div>
+                <h4>Redis 5</h4>
+                <p>Ephemeral state</p>
+            </div>
+            <div class="tech-card">
+                <div class="icon">🔐</div>
+                <h4>AES-256-CBC</h4>
+                <p>File encryption</p>
+            </div>
+            <div class="tech-card">
+                <div class="icon">🔑</div>
+                <h4>RSA + JWT</h4>
+                <p>Auth & key mgmt</p>
+            </div>
+            <div class="tech-card">
+                <div class="icon">☁️</div>
+                <h4>OpenID Connect</h4>
+                <p>SSO with PKCE</p>
+            </div>
+            <div class="tech-card">
+                <div class="icon">📧</div>
+                <h4>Resend</h4>
+                <p>Transactional email</p>
+            </div>
+            <div class="tech-card">
+                <div class="icon">🧵</div>
+                <h4>Piscina</h4>
+                <p>Worker threads</p>
+            </div>
+            <div class="tech-card">
+                <div class="icon">🐳</div>
+                <h4>Docker</h4>
+                <p>Containerized deploy</p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>Dabih API v2.2.15 · Architecture Documentation · Generated Feb 2026</p>
+    </footer>
+
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'dark',
+            themeVariables: {
+                primaryColor: '#4f46e5',
+                primaryTextColor: '#e0e0e0',
+                edgeLabelBackground: '#1a1a3e',
+                lineColor: '#6366f1',
+                fontSize: '13px',
+                noteBkgColor: '#1e1b4b',
+                noteTextColor: '#c4b5fd',
+                noteBorderColor: '#6366f1',
+                actorBkg: '#312e81',
+                actorTextColor: '#e0e0e0',
+                actorBorder: '#6366f1',
+                sequenceNumberColor: '#818cf8',
+                signalColor: '#a5b4fc'
+            },
+            sequence: {
+                diagramMarginX: 20,
+                diagramMarginY: 10,
+                actorMargin: 60,
+                width: 180,
+                height: 50,
+                boxMargin: 10,
+                noteMargin: 10,
+                messageMargin: 35,
+                mirrorActors: true
+            }
+        });
+    </script>
+</body>
+
+</html>

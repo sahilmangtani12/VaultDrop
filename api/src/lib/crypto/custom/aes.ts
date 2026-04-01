@@ -123,15 +123,31 @@ export class AESCipherTransform extends Transform {
   }
 
   update(data: string | Buffer, inputEnc?: BufferEncoding, outputEnc?: BufferEncoding): any {
+    let streamError: Error | null = null;
+    const errListener = (err: Error) => { streamError = err; };
+    this.once('error', errListener);
+    
     const buf = typeof data === 'string' ? Buffer.from(data, inputEnc || 'utf8') : data;
     this.write(buf);
+    
+    this.removeListener('error', errListener);
+    if (streamError) throw streamError;
+    
     const result = this.read();
     if (!result) return outputEnc ? '' : Buffer.alloc(0);
     return outputEnc ? result.toString(outputEnc) : result;
   }
 
   final(outputEnc?: BufferEncoding): any {
+    let streamError: Error | null = null;
+    const errListener = (err: Error) => { streamError = err; };
+    this.once('error', errListener);
+    
     this.end();
+    
+    this.removeListener('error', errListener);
+    if (streamError) throw streamError;
+    
     const result = this.read();
     if (!result) return outputEnc ? '' : Buffer.alloc(0);
     return outputEnc ? result.toString(outputEnc) : result;
@@ -227,10 +243,37 @@ export class AESDecipherTransform extends Transform {
   }
 
   final(outputEnc?: BufferEncoding): any {
-    this.end();
-    const result = this.read();
-    if (!result) return outputEnc ? '' : Buffer.alloc(0);
-    return outputEnc ? result.toString(outputEnc) : result;
+    if (this.buffer.length === 0) {
+        return outputEnc ? '' : Buffer.alloc(0);
+    }
+    if (this.buffer.length % 16 !== 0) {
+        throw new Error("Decryption failed: Final block not a multiple of block size.");
+    }
+
+    const out = new Uint8Array(this.buffer.length);
+    for (let offset = 0; offset < this.buffer.length; offset += 16) {
+        this.core.decryptBlock(this.buffer, out, offset, offset);
+        for (let i = 0; i < 16; i++) {
+        out[offset + i] ^= this.iv[i];
+        }
+        this.iv = this.buffer.slice(offset, offset + 16);
+    }
+    
+    // Unpad
+    const padLength = out[out.length - 1];
+    if (padLength < 1 || padLength > 16) {
+         throw new Error("Decryption padding error");
+    }
+    
+    for (let i = 0; i < padLength; i++) {
+      if (out[out.length - 1 - i] !== padLength) {
+         throw new Error("Decryption padding error structure");
+      }
+    }
+
+    this.buffer = new Uint8Array(0);
+    const resultBuf = Buffer.from(out.slice(0, out.length - padLength));
+    return outputEnc ? resultBuf.toString(outputEnc) : resultBuf;
   }
 }
 

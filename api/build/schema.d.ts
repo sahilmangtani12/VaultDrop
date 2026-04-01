@@ -951,6 +951,11 @@ export interface components {
             updatedAt: Date;
             /** @description The public keys of the user */
             keys: components["schemas"]["PublicKey"][];
+            /**
+             * Format: double
+             * @description The total live storage size used by the user's files in bytes.
+             */
+            storageUsed?: number;
         };
         "crypto.JsonWebKey": {
             crv?: string;

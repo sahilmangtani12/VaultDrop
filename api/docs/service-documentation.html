@@ -1,0 +1,1227 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dabih — Detailed Service Documentation</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0f0c29, #1a1a3e, #24243e);
+            color: #d1d5db;
+            min-height: 100vh;
+            line-height: 1.7;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Hero */
+        .hero {
+            text-align: center;
+            padding: 3rem 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .hero h1 {
+            font-size: 2.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #667eea, #764ba2, #f093fb);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            color: #9ca3af;
+        }
+
+        /* Navigation */
+        .nav {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 1.5rem 2rem;
+            margin-bottom: 2.5rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .nav h3 {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #6b7280;
+            margin-bottom: 0.8rem;
+        }
+
+        .nav-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 0.5rem;
+        }
+
+        .nav-link {
+            display: block;
+            padding: 0.5rem 0.8rem;
+            border-radius: 8px;
+            color: #a5b4fc;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .nav-link:hover {
+            background: rgba(99, 102, 241, 0.15);
+            color: #c4b5fd;
+        }
+
+        /* Service Section */
+        .service {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 20px;
+            margin-bottom: 2.5rem;
+            overflow: hidden;
+        }
+
+        .service-header {
+            padding: 1.5rem 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .service-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            flex-shrink: 0;
+        }
+
+        .service-header h2 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #e0e0e0;
+        }
+
+        .service-header h2 span {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 400;
+            color: #6b7280;
+            margin-top: 2px;
+        }
+
+        .service-body {
+            padding: 0 2rem 2rem;
+        }
+
+        /* Content blocks */
+        .what-box {
+            border-radius: 12px;
+            padding: 1.2rem 1.5rem;
+            margin-bottom: 1.5rem;
+            font-size: 0.92rem;
+            line-height: 1.7;
+        }
+
+        .what-box strong {
+            color: #e0e0e0;
+        }
+
+        .detail-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .detail-section h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #c4b5fd;
+            margin-bottom: 0.8rem;
+            padding-bottom: 0.3rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .detail-section p {
+            font-size: 0.9rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .detail-section ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .detail-section li {
+            padding: 0.4rem 0 0.4rem 1.5rem;
+            position: relative;
+            font-size: 0.88rem;
+        }
+
+        .detail-section li::before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: #6366f1;
+            font-weight: 700;
+        }
+
+        /* Code */
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            background: rgba(99, 102, 241, 0.12);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.82rem;
+            color: #a5b4fc;
+        }
+
+        /* Info cards */
+        .info-card {
+            background: rgba(99, 102, 241, 0.06);
+            border: 1px solid rgba(99, 102, 241, 0.15);
+            border-radius: 10px;
+            padding: 1rem 1.2rem;
+            margin-bottom: 1rem;
+            font-size: 0.85rem;
+        }
+
+        .info-card.warn {
+            background: rgba(245, 158, 11, 0.06);
+            border-color: rgba(245, 158, 11, 0.2);
+        }
+
+        .info-card.success {
+            background: rgba(16, 185, 129, 0.06);
+            border-color: rgba(16, 185, 129, 0.2);
+        }
+
+        .info-card h4 {
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+        }
+
+        /* Endpoint table */
+        .endpoint-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            font-size: 0.82rem;
+        }
+
+        .endpoint-table th {
+            text-align: left;
+            padding: 0.6rem;
+            background: rgba(99, 102, 241, 0.1);
+            color: #a5b4fc;
+            font-weight: 600;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .endpoint-table td {
+            padding: 0.5rem 0.6rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+        }
+
+        .method {
+            display: inline-block;
+            padding: 1px 6px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .method-get {
+            background: #059669;
+            color: white;
+        }
+
+        .method-post {
+            background: #2563eb;
+            color: white;
+        }
+
+        .method-put {
+            background: #d97706;
+            color: white;
+        }
+
+        .scope-badge {
+            display: inline-block;
+            padding: 1px 6px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 500;
+            background: rgba(139, 92, 246, 0.2);
+            color: #c4b5fd;
+        }
+
+        /* Theme colors per service */
+        .auth-theme .service-header {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(139, 92, 246, 0.1));
+        }
+
+        .auth-theme .service-icon {
+            background: #4f46e50e;
+            border: 2px solid #6366f1;
+        }
+
+        .auth-theme .what-box {
+            background: rgba(99, 102, 241, 0.06);
+            border-left: 3px solid #6366f1;
+        }
+
+        .upload-theme .service-header {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(5, 150, 105, 0.1));
+        }
+
+        .upload-theme .service-icon {
+            background: #05966930;
+            border: 2px solid #10b981;
+        }
+
+        .upload-theme .what-box {
+            background: rgba(16, 185, 129, 0.06);
+            border-left: 3px solid #10b981;
+        }
+
+        .download-theme .service-header {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(37, 99, 235, 0.1));
+        }
+
+        .download-theme .service-icon {
+            background: #2563eb30;
+            border: 2px solid #3b82f6;
+        }
+
+        .download-theme .what-box {
+            background: rgba(37, 99, 235, 0.06);
+            border-left: 3px solid #3b82f6;
+        }
+
+        .fs-theme .service-header {
+            background: linear-gradient(135deg, rgba(251, 146, 60, 0.15), rgba(234, 88, 12, 0.1));
+        }
+
+        .fs-theme .service-icon {
+            background: #ea580c30;
+            border: 2px solid #f97316;
+        }
+
+        .fs-theme .what-box {
+            background: rgba(251, 146, 60, 0.06);
+            border-left: 3px solid #f97316;
+        }
+
+        .user-theme .service-header {
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.15), rgba(147, 51, 234, 0.1));
+        }
+
+        .user-theme .service-icon {
+            background: #9333ea30;
+            border: 2px solid #a855f7;
+        }
+
+        .user-theme .what-box {
+            background: rgba(168, 85, 247, 0.06);
+            border-left: 3px solid #a855f7;
+        }
+
+        .token-theme .service-header {
+            background: linear-gradient(135deg, rgba(236, 72, 153, 0.15), rgba(219, 39, 119, 0.1));
+        }
+
+        .token-theme .service-icon {
+            background: #db277730;
+            border: 2px solid #ec4899;
+        }
+
+        .token-theme .what-box {
+            background: rgba(236, 72, 153, 0.06);
+            border-left: 3px solid #ec4899;
+        }
+
+        .filedata-theme .service-header {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.15), rgba(220, 38, 38, 0.1));
+        }
+
+        .filedata-theme .service-icon {
+            background: #dc262630;
+            border: 2px solid #ef4444;
+        }
+
+        .filedata-theme .what-box {
+            background: rgba(239, 68, 68, 0.06);
+            border-left: 3px solid #ef4444;
+        }
+
+        .job-theme .service-header {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(217, 119, 6, 0.1));
+        }
+
+        .job-theme .service-icon {
+            background: #d9770630;
+            border: 2px solid #f59e0b;
+        }
+
+        .job-theme .what-box {
+            background: rgba(245, 158, 11, 0.06);
+            border-left: 3px solid #f59e0b;
+        }
+
+        .util-theme .service-header {
+            background: linear-gradient(135deg, rgba(107, 114, 128, 0.15), rgba(75, 85, 99, 0.1));
+        }
+
+        .util-theme .service-icon {
+            background: #4b556330;
+            border: 2px solid #6b7280;
+        }
+
+        .util-theme .what-box {
+            background: rgba(107, 114, 128, 0.06);
+            border-left: 3px solid #6b7280;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: #4b5563;
+            font-size: 0.8rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+
+        <div class="hero">
+            <h1>📖 Dabih API — Service Documentation</h1>
+            <p>What each service is, what it does, how it works, and why it was designed this way</p>
+        </div>
+
+        <div class="nav">
+            <h3>📑 Table of Contents</h3>
+            <div class="nav-grid">
+                <a class="nav-link" href="#inode">📁 Inode (Virtual FS)</a>
+                <a class="nav-link" href="#auth">🔐 Auth Service</a>
+                <a class="nav-link" href="#upload">📤 Upload Service</a>
+                <a class="nav-link" href="#download">📥 Download Service</a>
+                <a class="nav-link" href="#fs">📂 Filesystem Service</a>
+                <a class="nav-link" href="#user">👤 User Service</a>
+                <a class="nav-link" href="#token">🎫 Token Service</a>
+                <a class="nav-link" href="#filedata">💾 FileData Service</a>
+                <a class="nav-link" href="#job">⚡ Job Service</a>
+                <a class="nav-link" href="#util">ℹ️ Util Service</a>
+                <a class="nav-link" href="#concepts">📚 Core Concepts</a>
+            </div>
+        </div>
+
+        <!-- ======================= CORE CONCEPTS ======================= -->
+        <div class="service" id="concepts" style="border-left: 3px solid #667eea;">
+            <div class="service-header"
+                style="background: linear-gradient(135deg, rgba(99,102,241,0.12), rgba(139,92,246,0.08));">
+                <div class="service-icon" style="border-color: #667eea; background: rgba(99,102,241,0.15);">📚</div>
+                <h2>Core Concepts & Data Models<span>Understanding the fundamental building blocks of Dabih</span></h2>
+            </div>
+            <div class="service-body">
+
+                <div class="detail-section">
+                    <h3>🌲 What is an Inode?</h3>
+                    <p>An <strong>Inode</strong> (Index Node) is the fundamental unit of the virtual filesystem in
+                        Dabih, borrowed from Unix/Linux filesystem design. Every file, directory, trash bin, and user
+                        home folder is represented as an Inode record in the database.</p>
+                    <p>Think of it like this: <strong>In a real computer, every file and folder has an inode
+                            number</strong>. Dabih recreates this concept in a database to build a virtual filesystem
+                        over encrypted cloud storage.</p>
+                    <div class="info-card">
+                        <h4>📋 Inode Types</h4>
+                        <ul style="list-style:none; padding:0;">
+                            <li style="padding:0.3rem 0;"><code>type=0 → FILE</code> — A completed, encrypted file. Has
+                                associated FileData and Chunks.</li>
+                            <li style="padding:0.3rem 0;"><code>type=1 → DIRECTORY</code> — A folder that contains other
+                                inodes as children.</li>
+                            <li style="padding:0.3rem 0;"><code>type=2 → UPLOAD</code> — A file that is currently being
+                                uploaded. Transitions to FILE when all chunks are uploaded and verified.</li>
+                            <li style="padding:0.3rem 0;"><code>type=10 → TRASH</code> — A special directory (recycle
+                                bin). Each user's HOME has one TRASH folder. When files are "deleted", they're moved
+                                here first.</li>
+                            <li style="padding:0.3rem 0;"><code>type=11 → ROOT</code> — The single global root of the
+                                entire filesystem tree. Created automatically on first server boot. All HOME directories
+                                are children of ROOT.</li>
+                            <li style="padding:0.3rem 0;"><code>type=12 → HOME</code> — Each user's personal root
+                                directory. Created automatically when a user registers. Named after the user's email.
+                            </li>
+                        </ul>
+                    </div>
+                    <p>Every Inode has a unique <strong>mnemonic</strong> — a human-readable identifier (like
+                        <code>alpha-bravo-charlie</code>) used in URLs instead of database IDs. This makes links
+                        shareable and memorable.</p>
+                </div>
+
+                <div class="detail-section">
+                    <h3>🧩 What is a Chunk?</h3>
+                    <p>A <strong>Chunk</strong> is a piece of an encrypted file. Large files are split into multiple
+                        chunks during upload, with each chunk independently encrypted using AES-256-CBC with a unique
+                        initialization vector (IV).</p>
+                    <div class="info-card success">
+                        <h4>Why chunked storage?</h4>
+                        <p>① <strong>Resumable uploads:</strong> If a large upload fails, only the failed chunk needs to
+                            be re-uploaded.<br>
+                            ② <strong>Integrity verification:</strong> Each chunk has its own SHA-256 hash and CRC-32
+                            checksum. A single corrupted chunk can be identified without re-downloading the entire
+                            file.<br>
+                            ③ <strong>Streaming:</strong> Files can be downloaded and decrypted chunk by chunk, without
+                            needing the entire file in memory.</p>
+                    </div>
+                    <p>Each chunk stores: its SHA-256 <code>hash</code> (of the plaintext), the AES <code>iv</code> used
+                        for encryption, the byte range (<code>start</code>–<code>end</code>), and the CRC-32
+                        <code>crc</code> of the encrypted output.</p>
+                </div>
+
+                <div class="detail-section">
+                    <h3>💾 What is FileData?</h3>
+                    <p>A <strong>FileData</strong> record holds the metadata for the actual file content — separate from
+                        the Inode (which represents the file's position in the filesystem). This separation allows the
+                        same data to be referenced by multiple Inodes (deduplication potential).</p>
+                    <p>Key fields:</p>
+                    <ul>
+                        <li><code>uid</code> — A 12-character identifier that maps to a storage bucket (folder on disk).
+                            This is where the encrypted chunk files are physically stored.</li>
+                        <li><code>keyHash</code> — The SHA-256 hash of the AES encryption key. Used to verify that a
+                            client-provided decryption key is correct without revealing the key itself.</li>
+                        <li><code>hash</code> — A composite SHA-256 hash of all chunk hashes. Set when the upload is
+                            finalized. Serves as a file fingerprint.</li>
+                        <li><code>size</code> — Total file size in bytes. Null during upload, set on finish. Used to
+                            validate chunk completeness.</li>
+                    </ul>
+                </div>
+
+                <div class="detail-section">
+                    <h3>👥 What is a Member?</h3>
+                    <p>A <strong>Member</strong> record establishes an access control link between a user and an Inode.
+                        It defines what permission a user has on a specific file or directory.</p>
+                    <div class="info-card">
+                        <h4>Permission Levels</h4>
+                        <p><code>0 = NONE</code> — No access (explicitly denied).<br>
+                            <code>1 = READ</code> — Can view/download the file or list directory contents.<br>
+                            <code>2 = WRITE</code> — Full access: read, upload, share, edit, and delete.
+                        </p>
+                    </div>
+                    <p>Permissions propagate down the tree: if you have WRITE on a directory, you have WRITE on all
+                        files and subdirectories inside it. A Member record on a parent directory grants access to all
+                        descendants.</p>
+                </div>
+
+                <div class="detail-section">
+                    <h3>🔐 What is a Key (Encryption Key Record)?</h3>
+                    <p>A <strong>Key</strong> record stores the AES encryption key for a file, encrypted with an RSA
+                        public key. Each file has one Key record per authorized public key.</p>
+                    <div class="info-card warn">
+                        <h4>How the encryption key lifecycle works:</h4>
+                        <p>① <strong>Upload start:</strong> Server generates a random AES-256 key → encrypts it with
+                            each authorized RSA public key → stores as Key records → stores plaintext key in Redis for
+                            the upload duration.<br>
+                            ② <strong>Upload finish:</strong> Ephemeral key deleted from Redis. Only the RSA-encrypted
+                            copies remain.<br>
+                            ③ <strong>Download:</strong> Client fetches Key record → decrypts AES key using their RSA
+                            private key (client-side) → sends AES key to server → server uses it to decrypt the file
+                            stream.</p>
+                    </div>
+                    <p>This design means: <strong>the server never permanently stores the plaintext encryption
+                            key</strong>. Only users with the matching RSA private key can decrypt files, achieving true
+                        end-to-end encryption.</p>
+                </div>
+
+                <div class="detail-section">
+                    <h3>🔑 What is a PublicKey?</h3>
+                    <p>A <strong>PublicKey</strong> is an RSA public key registered by a user. It serves two purposes:
+                    </p>
+                    <ul>
+                        <li><strong>Encryption:</strong> When a file is uploaded, the AES key is encrypted with every
+                            active PublicKey, creating a Key record for each. This allows multiple users to decrypt the
+                            same file.</li>
+                        <li><strong>Authentication:</strong> Users can sign refresh tokens with their RSA private key.
+                            The server verifies the signature against their stored public key.</li>
+                    </ul>
+                    <p>Keys start in a <strong>disabled state</strong> (<code>enabled=null</code>). An authorized user
+                        must explicitly enable them. This prevents unauthorized key injection — you can't just register
+                        a key and start decrypting files.</p>
+                    <p><strong>Root Keys</strong> (<code>isRootKey=true</code>) are special: they encrypt every upload,
+                        providing organizational-level data recovery capability.</p>
+                </div>
+
+                <div class="detail-section">
+                    <h3>🎫 What is a Token?</h3>
+                    <p>A <strong>Token</strong> is a long-lived, database-stored access credential (as opposed to a JWT,
+                        which is stateless). Tokens are used for:</p>
+                    <ul>
+                        <li><strong>CLI/Automation:</strong> Instead of managing JWT refresh flows, CLI tools use a
+                            persistent token.</li>
+                        <li><strong>Scoped download:</strong> Short-lived tokens (30s) with scope
+                            <code>dabih:download:&lt;mnemonic&gt;</code> for secure file streaming.</li>
+                    </ul>
+                    <p>Because tokens live in the database, they can be <strong>instantly revoked</strong> (unlike JWTs,
+                        which remain valid until expiration).</p>
+                </div>
+
+                <div class="detail-section">
+                    <h3>🧠 Scopes</h3>
+                    <p>The authorization system uses three scopes:</p>
+                    <table class="endpoint-table">
+                        <tr>
+                            <th>Scope</th>
+                            <th>Meaning</th>
+                            <th>Granted When</th>
+                        </tr>
+                        <tr>
+                            <td><code>dabih:base</code></td>
+                            <td>Basic sign-in access. Can view profile, add public keys.</td>
+                            <td>Always granted to all users</td>
+                        </tr>
+                        <tr>
+                            <td><code>dabih:api</code></td>
+                            <td>Full API access. All file/folder/user operations.</td>
+                            <td>When user has at least one enabled PublicKey</td>
+                        </tr>
+                        <tr>
+                            <td><code>dabih:admin</code></td>
+                            <td>Administrative access. User management, data integrity.</td>
+                            <td>First user gets it automatically; others via admin grant</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ======================= AUTH ======================= -->
+        <div class="service auth-theme" id="auth">
+            <div class="service-header">
+                <div class="service-icon">🔐</div>
+                <h2>Auth Service<span>src/api/auth/ · Route: /api/v1/auth · 7 files</span></h2>
+            </div>
+            <div class="service-body">
+                <div class="what-box">
+                    <strong>What it is:</strong> The authentication and authorization gateway. Handles user login via
+                    two mechanisms — OpenID Connect (OIDC) for SSO and email magic links for standalone deployments.
+                    Issues JWTs for session management and supports token refresh via client-signed RSA tokens.
+                </div>
+
+                <div class="detail-section">
+                    <h3>📄 Files in this Service</h3>
+                    <table class="endpoint-table">
+                        <tr>
+                            <th>File</th>
+                            <th>Purpose</th>
+                        </tr>
+                        <tr>
+                            <td><code>controller.ts</code></td>
+                            <td>TSOA controller defining all auth endpoints with decorators</td>
+                        </tr>
+                        <tr>
+                            <td><code>login.ts</code></td>
+                            <td>Generates PKCE code verifier + state, stores in Redis, returns OIDC redirect URL</td>
+                        </tr>
+                        <tr>
+                            <td><code>callback.ts</code></td>
+                            <td>Handles OIDC callback: exchanges code for token, fetches userinfo, creates/updates user,
+                                signs JWT</td>
+                        </tr>
+                        <tr>
+                            <td><code>signIn.ts</code></td>
+                            <td>Email magic link flow: generates email JWT, sends via Resend or returns token directly
+                                if email is not configured</td>
+                        </tr>
+                        <tr>
+                            <td><code>verifyEmail.ts</code></td>
+                            <td>Validates email verification token, creates user if new, creates home directory, returns
+                                auth JWT</td>
+                        </tr>
+                        <tr>
+                            <td><code>refresh.ts</code></td>
+                            <td>Verifies client-signed RSA token against stored public keys, checks 2-week lastAuthAt
+                                window, issues fresh JWT</td>
+                        </tr>
+                        <tr>
+                            <td><code>auth.test.ts</code></td>
+                            <td>Integration tests for the auth flow</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="detail-section">
+                    <h3>🔧 How It's Configured</h3>
+                    <ul>
+                        <li><code>OIDC_PROVIDER</code> — Identity provider URL (e.g., Google, GitHub, Keycloak). If not
+                            set, OIDC login is disabled.</li>
+                        <li><code>OIDC_CLIENT_ID</code> / <code>OIDC_CLIENT_SECRET</code> — OAuth2 credentials from your
+                            OIDC provider.</li>
+                        <li><code>RESEND_TOKEN</code> / <code>RESEND_EMAIL</code> — If set, enables email magic links.
+                            If not set, tokens are returned directly (dev mode).</li>
+                        <li><code>SECRET</code> — Master secret used to derive AES keys for encrypting JWT signing
+                            secrets in Redis.</li>
+                    </ul>
+                </div>
+
+                <div class="detail-section">
+                    <h3>🏗️ Why This Architecture?</h3>
+                    <ul>
+                        <li><strong>Dual auth</strong> — OIDC for institutions with existing identity providers; email
+                            for standalone deployments without SSO infrastructure.</li>
+                        <li><strong>PKCE flow</strong> — Proof Key for Code Exchange prevents authorization code
+                            interception. Code verifiers stored in Redis (10 min TTL) for stateless server design.</li>
+                        <li><strong>Rotating secrets</strong> — JWT signing secrets rotate daily and are stored
+                            encrypted in Redis (5-deep list). Old secrets remain valid for verification during rotation,
+                            preventing sudden invalidation.</li>
+                        <li><strong>RSA refresh</strong> — Requiring client-signed RSA tokens for refresh ensures the
+                            client still possesses their private key, not just a stolen JWT.</li>
+                        <li><strong>Auto-admin</strong> — First registered user automatically gets admin scope,
+                            bootstrapping the system without manual database intervention.</li>
+                        <li><strong>Rate limiting</strong> — Sign-in endpoint is rate-limited (3 requests per minute per
+                            IP) to prevent email spam abuse.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- ======================= UPLOAD ======================= -->
+        <div class="service upload-theme" id="upload">
+            <div class="service-header">
+                <div class="service-icon">📤</div>
+                <h2>Upload Service<span>src/api/upload/ · Route: /api/v1/upload · 10 files</span></h2>
+            </div>
+            <div class="service-body">
+                <div class="what-box">
+                    <strong>What it is:</strong> Manages the complete lifecycle of encrypted file uploads — from
+                    initialization through chunked data transfer to finalization. Each file is encrypted with a fresh
+                    AES-256 key, split into chunks, and stored independently on the storage backend.
+                </div>
+
+                <div class="detail-section">
+                    <h3>📄 Files in this Service</h3>
+                    <table class="endpoint-table">
+                        <tr>
+                            <th>File</th>
+                            <th>Purpose</th>
+                        </tr>
+                        <tr>
+                            <td><code>controller.ts</code></td>
+                            <td>TSOA controller with endpoints: start, chunk, stream, finish, cancel, unfinished,
+                                cleanup</td>
+                        </tr>
+                        <tr>
+                            <td><code>start.ts</code></td>
+                            <td>Generates AES key, creates FileData + Inode records, encrypts AES key with RSA public
+                                keys, stores in Redis + creates storage bucket</td>
+                        </tr>
+                        <tr>
+                            <td><code>chunk.ts</code></td>
+                            <td>Receives raw bytes → validates hash → encrypts → computes CRC-32 → writes to storage →
+                                creates Chunk record. Supports both <code>application/octet-stream</code> and multipart
+                                form upload</td>
+                        </tr>
+                        <tr>
+                            <td><code>stream.ts</code></td>
+                            <td>Single-request upload: combines start + chunk + finish into one streaming PUT request
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><code>finish.ts</code></td>
+                            <td>Validates all chunks are contiguous (no gaps), computes composite hash, transitions
+                                Inode type UPLOAD→FILE, deletes ephemeral key</td>
+                        </tr>
+                        <tr>
+                            <td><code>cancel.ts</code></td>
+                            <td>Removes inode, file data, chunks, and storage bucket for an in-progress upload</td>
+                        </tr>
+                        <tr>
+                            <td><code>unfinished.ts</code></td>
+                            <td>Lists all uploads that haven't been finalized (type=UPLOAD)</td>
+                        </tr>
+                        <tr>
+                            <td><code>cleanup.ts</code></td>
+                            <td>Batch removes all unfinished uploads for the current user</td>
+                        </tr>
+                        <tr>
+                            <td><code>util.ts</code></td>
+                            <td>Parses <code>Content-Range</code> and <code>Digest</code> HTTP headers</td>
+                        </tr>
+                        <tr>
+                            <td><code>upload.test.ts</code></td>
+                            <td>Integration tests</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="detail-section">
+                    <h3>🔧 How the Encryption Works (Step by Step)</h3>
+                    <ul>
+                        <li><strong>Step 1</strong> — Server generates a random AES-256 key for the file</li>
+                        <li><strong>Step 2</strong> — The SHA-256 hash of this key is stored in
+                            <code>FileData.keyHash</code> (used later to verify client-supplied keys)</li>
+                        <li><strong>Step 3</strong> — The AES key is encrypted with every authorized RSA public key
+                            (user's keys + root keys) → stored as <code>Key</code> records</li>
+                        <li><strong>Step 4</strong> — The plaintext AES key is cached in Redis
+                            (<code>aesKey:{sub}:{mnemonic}</code>, 1hr TTL) for the upload duration</li>
+                        <li><strong>Step 5</strong> — For each chunk: Raw bytes → SHA-256 validate → AES-256-CBC encrypt
+                            (unique IV per chunk) → CRC-32 → write to disk</li>
+                        <li><strong>Step 6</strong> — On finish: validate chunks, delete ephemeral key from Redis. Only
+                            RSA-encrypted copies remain.</li>
+                    </ul>
+                </div>
+
+                <div class="detail-section">
+                    <h3>🏗️ Why This Architecture?</h3>
+                    <ul>
+                        <li><strong>Chunked transfer</strong> — Enables large file support (multi-GB) with built-in
+                            resume capability</li>
+                        <li><strong>Per-chunk encryption with unique IV</strong> — Prevents pattern analysis attacks
+                            that could occur with a single IV</li>
+                        <li><strong>Hash verification</strong> — SHA-256 digest header vs actual data ensures integrity
+                            during transit</li>
+                        <li><strong>Ephemeral key in Redis</strong> — The server only holds the plaintext key during
+                            active upload. If the server is compromised after upload, the key is gone.</li>
+                        <li><strong>Multi-key encryption</strong> — Encrypting the AES key with multiple RSA public keys
+                            allows any authorized user to decrypt without sharing private keys</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- ======================= DOWNLOAD ======================= -->
+        <div class="service download-theme" id="download">
+            <div class="service-header">
+                <div class="service-icon">📥</div>
+                <h2>Download Service<span>src/api/download/ · Route: /api/v1/download · 5 files</span></h2>
+            </div>
+            <div class="service-body">
+                <div class="what-box">
+                    <strong>What it is:</strong> Handles decryption and streaming of encrypted files. Uses a two-step
+                    process: first the client provides the AES key (decrypted client-side), then the server uses it to
+                    stream the decrypted file. Scoped, short-lived tokens ensure security.
+                </div>
+
+                <div class="detail-section">
+                    <h3>📄 Files in this Service</h3>
+                    <table class="endpoint-table">
+                        <tr>
+                            <th>File</th>
+                            <th>Purpose</th>
+                        </tr>
+                        <tr>
+                            <td><code>controller.ts</code></td>
+                            <td>TSOA controller: decrypt, download (stream), chunk (raw)</td>
+                        </tr>
+                        <tr>
+                            <td><code>decrypt.ts</code></td>
+                            <td>Validates AES key hash → stores key in Redis → creates scoped DB token (30s TTL) with
+                                scope <code>dabih:download:{mnemonic}</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>mnemonic.ts</code></td>
+                            <td>Validates scoped token → reads AES key from Redis → streams all chunks through AES
+                                decrypt pipeline → assembles full file</td>
+                        </tr>
+                        <tr>
+                            <td><code>chunk.ts</code></td>
+                            <td>Direct raw chunk download (encrypted binary, no decryption)</td>
+                        </tr>
+                        <tr>
+                            <td><code>download.test.ts</code></td>
+                            <td>Integration tests</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="detail-section">
+                    <h3>🏗️ Why Two Steps?</h3>
+                    <ul>
+                        <li><strong>Security separation</strong> — The decrypt step (POST) accepts the AES key and
+                            returns a minimal, scoped token. The download step (GET) uses this token to stream the file.
+                            This prevents the key from being logged in URL query parameters.</li>
+                        <li><strong>30-second token TTL</strong> — The download token expires quickly, preventing replay
+                            attacks or token theft</li>
+                        <li><strong>Client-side RSA decryption</strong> — The server never sees the RSA private key. The
+                            AES key is decrypted in the browser/CLI, then sent to the server only when needed.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- ======================= FILESYSTEM ======================= -->
+        <div class="service fs-theme" id="fs">
+            <div class="service-header">
+                <div class="service-icon">📂</div>
+                <h2>Filesystem Service<span>src/api/fs/ · Route: /api/v1/fs · 21 files (largest service)</span></h2>
+            </div>
+            <div class="service-body">
+                <div class="what-box">
+                    <strong>What it is:</strong> A virtual filesystem providing directory management, file organization,
+                    member sharing, access control, and search. Built on the Inode tree structure, it supports CRUD
+                    operations on directories, file listing, tree traversal, duplication, moving, sharing, and async
+                    search.
+                </div>
+
+                <div class="detail-section">
+                    <h3>📄 Key Files</h3>
+                    <table class="endpoint-table">
+                        <tr>
+                            <th>File</th>
+                            <th>What It Does</th>
+                        </tr>
+                        <tr>
+                            <td><code>list.ts</code></td>
+                            <td>Lists children of a directory inode (or home if none specified). Returns inode details +
+                                members + file data</td>
+                        </tr>
+                        <tr>
+                            <td><code>listShared.ts</code></td>
+                            <td>Lists directories shared with the current user (where they're a member but not the
+                                owner)</td>
+                        </tr>
+                        <tr>
+                            <td><code>file.ts</code></td>
+                            <td>Gets file info needed for download: inode, file data, chunks, and encrypted keys</td>
+                        </tr>
+                        <tr>
+                            <td><code>listFiles.ts</code></td>
+                            <td>Recursively lists all FILE-type inodes in a directory tree</td>
+                        </tr>
+                        <tr>
+                            <td><code>listParents.ts</code></td>
+                            <td>Walks up the parent chain from an inode to root (for breadcrumb navigation)</td>
+                        </tr>
+                        <tr>
+                            <td><code>addDirectory.ts</code></td>
+                            <td>Creates a new DIRECTORY inode under a parent, generates mnemonic</td>
+                        </tr>
+                        <tr>
+                            <td><code>move.ts</code></td>
+                            <td>Moves an inode to a new parent directory (validates write permission on both source and
+                                target)</td>
+                        </tr>
+                        <tr>
+                            <td><code>duplicate.ts</code></td>
+                            <td>Deep copies an inode and all its children, generating new mnemonics</td>
+                        </tr>
+                        <tr>
+                            <td><code>remove.ts</code></td>
+                            <td>Moves an inode to the user's TRASH directory (soft delete)</td>
+                        </tr>
+                        <tr>
+                            <td><code>destroy.ts</code></td>
+                            <td>Permanently deletes an inode and all associated data (hard delete)</td>
+                        </tr>
+                        <tr>
+                            <td><code>addMembers.ts</code></td>
+                            <td>Shares a directory/file with other users by creating Member records</td>
+                        </tr>
+                        <tr>
+                            <td><code>setAccess.ts</code></td>
+                            <td>Updates a member's permission level on an inode</td>
+                        </tr>
+                        <tr>
+                            <td><code>resolve.ts</code></td>
+                            <td>Resolves a path string (like <code>/Projects/Data</code>) to an inode</td>
+                        </tr>
+                        <tr>
+                            <td><code>tree.ts</code></td>
+                            <td>Returns the full tree structure under an inode</td>
+                        </tr>
+                        <tr>
+                            <td><code>searchStart.ts</code></td>
+                            <td>Starts a background search job (Piscina worker thread)</td>
+                        </tr>
+                        <tr>
+                            <td><code>searchResults.ts</code></td>
+                            <td>Polls search results from Redis job data</td>
+                        </tr>
+                        <tr>
+                            <td><code>searchCancel.ts</code></td>
+                            <td>Cancels a running search job</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="detail-section">
+                    <h3>🏗️ Why This Architecture?</h3>
+                    <ul>
+                        <li><strong>Unix-like inode tree</strong> — Familiar concepts (home directory, trash bin, tree
+                            hierarchy) make the API intuitive and the file organization natural</li>
+                        <li><strong>Mnemonics</strong> — Human-readable identifiers replace raw database IDs. Easier to
+                            debug, share, and use in URLs</li>
+                        <li><strong>Async search via Piscina</strong> — Filesystem search can be slow (BFS traversal).
+                            Offloading to a worker thread prevents blocking the main event loop. Results stream into
+                            Redis, and the client polls via the Job API</li>
+                        <li><strong>Member-based ACL</strong> — Simple but effective: each user-inode pair has a
+                            permission level. Inheritance through the tree hierarchy means sharing a directory
+                            automatically shares all its contents</li>
+                        <li><strong>Two-phase delete</strong> — <code>remove</code> moves to TRASH (recoverable),
+                            <code>destroy</code> permanently deletes. Reduces accidental data loss</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- ======================= USER ======================= -->
+        <div class="service user-theme" id="user">
+            <div class="service-header">
+                <div class="service-icon">👤</div>
+                <h2>User Service<span>src/api/user/ · Route: /api/v1/user · 12 files</span></h2>
+            </div>
+            <div class="service-body">
+                <div class="what-box">
+                    <strong>What it is:</strong> Manages user accounts and their RSA public keys. Users register, manage
+                    their cryptographic keys (required for file encryption/decryption), and admins can promote/demote
+                    other users. The key management here is the foundation of Dabih's end-to-end encryption.
+                </div>
+
+                <div class="detail-section">
+                    <h3>📄 Key Files</h3>
+                    <table class="endpoint-table">
+                        <tr>
+                            <th>File</th>
+                            <th>What It Does</th>
+                        </tr>
+                        <tr>
+                            <td><code>add.ts</code></td>
+                            <td>Registers a new user (admin-only)</td>
+                        </tr>
+                        <tr>
+                            <td><code>get.ts</code></td>
+                            <td>Fetches user profile by sub, including their public keys</td>
+                        </tr>
+                        <tr>
+                            <td><code>list.ts</code></td>
+                            <td>Lists all users in the system</td>
+                        </tr>
+                        <tr>
+                            <td><code>remove.ts</code></td>
+                            <td>Removes a user account</td>
+                        </tr>
+                        <tr>
+                            <td><code>addKey.ts</code></td>
+                            <td>Registers an RSA public key for the current user. Key is created in disabled state
+                                (pending approval).</td>
+                        </tr>
+                        <tr>
+                            <td><code>enableKey.ts</code></td>
+                            <td>Enables a pending public key. Once enabled, the user gains <code>dabih:api</code> scope.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><code>removeKey.ts</code></td>
+                            <td>Removes a public key</td>
+                        </tr>
+                        <tr>
+                            <td><code>findKey.ts</code></td>
+                            <td>Finds which user owns a particular public key by hash (no auth required)</td>
+                        </tr>
+                        <tr>
+                            <td><code>setAdmin.ts</code></td>
+                            <td>Grants or revokes admin scope for a user (admin-only)</td>
+                        </tr>
+                        <tr>
+                            <td><code>util.ts</code></td>
+                            <td>User utility functions</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="detail-section">
+                    <h3>🏗️ Why This Architecture?</h3>
+                    <ul>
+                        <li><strong>Key approval workflow</strong> — Keys start disabled to prevent unauthorized key
+                            injection. A trusted user must explicitly enable them. This ensures only legitimate keys
+                            participate in file encryption.</li>
+                        <li><strong>Root keys</strong> — Organization-level recovery mechanism. Root keys encrypt every
+                            upload, so even if a user loses their private key, an admin with the root private key can
+                            still decrypt the data.</li>
+                        <li><strong>Scope-based access escalation</strong> — Users start with <code>dabih:base</code>
+                            (can only sign in and add keys). They get <code>dabih:api</code> when a key is enabled. This
+                            two-step process prevents users from accessing the API without proper cryptographic setup.
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- ======================= TOKEN ======================= -->
+        <div class="service token-theme" id="token">
+            <div class="service-header">
+                <div class="service-icon">🎫</div>
+                <h2>Token Service<span>src/api/token/ · Route: /api/v1/token · 5 files</span></h2>
+            </div>
+            <div class="service-body">
+                <div class="what-box">
+                    <strong>What it is:</strong> Manages persistent API access tokens stored in the database. These
+                    complement JWTs — while JWTs are short-lived for browser sessions, DB tokens are long-lived for CLI
+                    tools, scripts, and integrations. They can be instantly revoked.
+                </div>
+                <div class="detail-section">
+                    <h3>📄 Files</h3>
+                    <table class="endpoint-table">
+                        <tr>
+                            <th>File</th>
+                            <th>Purpose</th>
+                        </tr>
+                        <tr>
+                            <td><code>add.ts</code></td>
+                            <td>Creates a new token with specified scope and optional expiration</td>
+                        </tr>
+                        <tr>
+                            <td><code>list.ts</code></td>
+                            <td>Lists all tokens belonging to the current user</td>
+                        </tr>
+                        <tr>
+                            <td><code>remove.ts</code></td>
+                            <td>Revokes (deletes) a token</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="detail-section">
+                    <h3>🏗️ Why DB Tokens + JWTs?</h3>
+                    <ul>
+                        <li><strong>JWTs</strong> are fast (no DB lookup) but can't be revoked before expiration →
+                            perfect for browser sessions</li>
+                        <li><strong>DB tokens</strong> require a DB lookup but can be instantly revoked → perfect for
+                            CLI/automation where long-lived access is needed</li>
+                        <li>The auth layer checks the token format to determine which type it is
+                            (<code>isToken()</code>) and handles each appropriately</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- ======================= FILEDATA ======================= -->
+        <div class="service filedata-theme" id="filedata">
+            <div class="service-header">
+                <div class="service-icon">💾</div>
+                <h2>FileData Service (Admin Only)<span>src/api/filedata/ · Route: /api/v1/filedata · 4 files</span></h2>
+            </div>
+            <div class="service-body">
+                <div class="what-box">
+                    <strong>What it is:</strong> Administrative maintenance endpoints for data integrity management.
+                    Allows admins to find orphaned file data (data not referenced by any inode), remove it, and
+                    cross-check the database against the storage backend for inconsistencies.
+                </div>
+                <div class="detail-section">
+                    <h3>📄 Files</h3>
+                    <table class="endpoint-table">
+                        <tr>
+                            <th>File</th>
+                            <th>Purpose</th>
+                        </tr>
+                        <tr>
+                            <td><code>orphaned.ts</code></td>
+                            <td>Queries FileData records that have zero Inode references (data exists but no file points
+                                to it)</td>
+                        </tr>
+                        <tr>
+                            <td><code>remove.ts</code></td>
+                            <td>Deletes a FileData record, its chunks, and the physical storage bucket. Uses Prisma
+                                transaction.</td>
+                        </tr>
+                        <tr>
+                            <td><code>checkIntegrity.ts</code></td>
+                            <td>Cross-references all FileData UIDs against actual storage buckets. Returns
+                                <code>missing</code> (in DB but not on disk) and <code>unknown</code> (on disk but not
+                                in DB)</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="detail-section">
+                    <h3>🏗️ Why?</h3>
+                    <ul>
+                        <li>Orphaned data occurs when Inodes are deleted/destroyed but the underlying FileData is
+                            retained (or vice versa during crashes)</li>
+                        <li>Integrity checks catch storage/DB mismatches that could indicate data corruption, incomplete
+                            cleanup, or manual filesystem tampering</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- ======================= JOB ======================= -->
+        <div class="service job-theme" id="job">
+            <div class="service-header">
+                <div class="service-icon">⚡</div>
+                <h2>Job Service (Admin Only)<span>src/api/job/ · Route: /api/v1/job · 2 files</span></h2>
+            </div>
+            <div class="service-body">
+                <div class="what-box">
+                    <strong>What it is:</strong> Administrative endpoint to monitor background jobs. Jobs are stored
+                    entirely in Redis (metadata as hash, results as list). Currently used exclusively by the filesystem
+                    search system — each search query creates a job that runs in a Piscina worker thread.
+                </div>
+                <div class="detail-section">
+                    <h3>How Jobs Work</h3>
+                    <ul>
+                        <li>Job created → <code>job:{id}:meta</code> hash in Redis with status=running</li>
+                        <li>Worker adds results → <code>job:{id}:data</code> list in Redis (appended as JSON strings)
+                        </li>
+                        <li>Client polls results → reads up to 100 entries at a time, then removes them (consumer
+                            pattern)</li>
+                        <li>Job completes → status=complete. Client stops polling.</li>
+                        <li>Job cancelled → status changed, worker checks on each iteration and exits early</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- ======================= UTIL ======================= -->
+        <div class="service util-theme" id="util">
+            <div class="service-header">
+                <div class="service-icon">ℹ️</div>
+                <h2>Util Service<span>src/api/util/ · Route: /api/v1/ · 2 files</span></h2>
+            </div>
+            <div class="service-body">
+                <div class="what-box">
+                    <strong>What it is:</strong> Utility endpoints — health check and server info. No authentication
+                    required. The info endpoint reads branding data from <code>info.yaml</code> and adds the package
+                    version.
+                </div>
+                <div class="detail-section">
+                    <h3>Endpoints</h3>
+                    <ul>
+                        <li><code>GET /healthy</code> — Returns <code>{"healthy": true}</code>. Used by load
+                            balancers/Docker health checks.</li>
+                        <li><code>GET /info</code> — Returns version, admin contact, organization/department branding
+                            from <code>info.yaml</code>.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+        <p>Dabih API v2.2.15 · Detailed Service Documentation · Generated Feb 2026</p>
+    </footer>
+
+</body>
+
+</html>

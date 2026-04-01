@@ -45,6 +45,7 @@ export interface Download {
   size?: number;
   current?: number;
   result?: File;
+  isPreview?: boolean;
 }
 
 export interface Upload {
@@ -71,6 +72,7 @@ interface Actions {
   addTransfer: (transfer: Transfer) => void;
   upload: (req: UploadRequest) => void;
   download: (mnemonic: string | string[], key: CryptoKey) => void;
+  preview: (mnemonic: string, key: CryptoKey) => void;
   updateTransfer: (transfer: Transfer) => void;
   cancelTransfer: (id: string) => void;
   clearTransfer: (id: string) => void;
@@ -107,6 +109,18 @@ const useTransfers = create<State & Actions>((set) => ({
       status: "preparing",
       key,
       mnemonics,
+    };
+    set((state) => ({ transfers: [...state.transfers, transfer] }));
+  },
+  preview: (mnemonic: string, key: CryptoKey) => {
+    const id = Math.random().toString(36).substring(7) + "_preview";
+    const transfer: Transfer = {
+      id,
+      type: "download",
+      status: "preparing",
+      key,
+      mnemonics: [mnemonic],
+      isPreview: true,
     };
     set((state) => ({ transfers: [...state.transfers, transfer] }));
   },

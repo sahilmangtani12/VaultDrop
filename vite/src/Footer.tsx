@@ -64,9 +64,9 @@ export default function Footer() {
 
             {/* Org */}
             <div className="space-y-3">
-              <h4 className="text-white/50 text-[10px] font-semibold uppercase tracking-[0.15em]">Organization</h4>
+              {/* <h4 className="text-white/50 text-[10px] font-semibold uppercase tracking-[0.15em]">Organization</h4> */}
               <div className="space-y-1.5 text-xs">
-                {department && (
+                {/* {department && (
                   <a href={department.url ?? '#'} target="_blank" rel="noopener noreferrer" className="text-white/30 hover:text-white/70 transition-colors duration-300 flex items-center gap-2">
                     {department.logo && <img src={department.logo} alt={department.name} className="w-4 h-4 object-contain opacity-40" />}
                     {department.name}
@@ -77,7 +77,7 @@ export default function Footer() {
                     {organization.logo && <img src={organization.logo} alt={organization.name} className="w-4 h-4 object-contain opacity-40" />}
                     {organization.name}
                   </a>
-                )}
+                )} */}
               </div>
             </div>
           </div>
@@ -86,7 +86,7 @@ export default function Footer() {
           <div className="mt-8 pt-5 border-t border-white/[0.04] flex flex-col sm:flex-row items-center justify-between gap-3 text-[10px] text-white/20">
             <p>© {new Date().getFullYear()} VaultDrop</p>
             <a
-              href="https://github.com/spang-lab/dabih"  /* repository URL stays same */
+              href="https://github.com/sahilmangtani12/VaultSecure?tab=readme-ov-file"  /* repository URL stays same */
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-1.5 hover:text-white/50 transition-colors duration-300"
