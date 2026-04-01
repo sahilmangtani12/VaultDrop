@@ -5,7 +5,7 @@ import {
   Get,
   OperationId,
 } from "@tsoa/runtime";
-import { DabihInfo } from "../types";
+import { AppInfo } from '../types/base';
 import info from "./info";
 
 
@@ -20,9 +20,9 @@ export class UtilController extends Controller {
     };
   }
 
-  @Get("info")
+  @Get()
   @OperationId("info")
-  public async info(): Promise<DabihInfo> {
+  public async info(): Promise<AppInfo> {
     return info();
   }
 }

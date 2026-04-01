@@ -32,30 +32,32 @@ export default function DownloadTransfer({ data }: { data: Download }) {
         const file = data.result!;
         const url = URL.createObjectURL(file);
 
-
         return (
-          <div className="text-xs text-left py-1 flex items-center">
-            <div className="bg-green text-white font-bold px-2 py-1 mx-2 rounded-full">Complete</div>
-            <div className="font-mono py-1">
-              <a href={url} download={file.name} className="text-white bg-blue px-2 py-1 rounded-lg font-bold">
-                Save
-                {" "}
-                <FileName fileName={file.name} />
-              </a>
-              <p className="text-gray-500 font-mono font-extrabold">
-                {displayName}
-              </p>
+          <div className="text-xs text-left py-1 flex flex-col items-center gap-2">
+            <div className="flex items-center">
+              <span className="bg-emerald-500/20 text-emerald-400 border border-emerald-500/20 shadow-[0_0_10px_rgba(16,185,129,0.1)] font-bold px-3 py-1 rounded-full text-[10px] uppercase tracking-wider">Complete</span>
             </div>
-          </div >
+            <div className="font-mono flex flex-col items-center gap-1 w-full">
+              <a href={url} download={file.name} className="text-white bg-blue-500 hover:bg-blue-400 shadow-[0_0_15px_rgba(59,130,246,0.2)] px-3 py-1.5 rounded-lg flex items-center justify-center gap-2 font-bold transition-all duration-200 w-fit">
+                <span>Save</span>
+                <div className="max-w-[140px]">
+                  <FileName fileName={file.name} />
+                </div>
+              </a>
+              <span className="text-white/40 text-[10px] font-mono font-extrabold mt-1">
+                {displayName}
+              </span>
+            </div>
+          </div>
         );
       }
       case "downloading":
         return (
-          <div>
-            Downloading
-            <p className="text-blue font-mono font-extrabold">
+          <div className="flex flex-col items-center justify-center gap-1">
+            <span className="text-white/70">Downloading</span>
+            <span className="text-blue-400 font-mono font-extrabold truncate max-w-[180px]">
               {displayName}
-            </p>
+            </span>
           </div>
         );
       default:
@@ -73,15 +75,15 @@ export default function DownloadTransfer({ data }: { data: Download }) {
     const percent = Math.round((1000 * current) / size) / 10;
     const width = `${Math.round(percent)}%`;
     return (
-      <div className="flex items-center">
-        <div className="text-[10px] sm:text-xs font-mono font-bold text-gray-800 px-1 w-12 sm:w-16 shrink-0 text-right mr-1">
+      <div className="flex items-center w-full mt-1">
+        <div className="text-[10px] sm:text-xs font-mono font-bold text-white/80 px-1 w-12 sm:w-16 shrink-0 text-right mr-1">
           {percent.toFixed(1)}%
         </div>
-        <div className="w-full bg-gray-200 rounded-full h-2">
-          <div className="bg-blue h-2 rounded-full" style={{ width }}>
+        <div className="w-full bg-white/10 rounded-full h-1.5 overflow-hidden">
+          <div className="bg-blue-400 h-1.5 rounded-full" style={{ width }}>
           </div>
         </div>
-        <div className="ml-2 font-mono text-[10px] sm:text-[11px] text-gray-600 text-nowrap shrink-0 text-right">
+        <div className="ml-2 font-mono text-[10px] sm:text-[11px] text-white/40 text-nowrap shrink-0 text-right">
           <Bytes value={current} />
           {" "}
           /
@@ -96,26 +98,26 @@ export default function DownloadTransfer({ data }: { data: Download }) {
 
 
   return (
-    <div className="flex items-center py-2 border-b last:border-none border-gray-200">
-      <div className="text-[10px] font-bold text-blue border-r border-gray-200 px-2">
-        <DownloadIcon className="mx-auto" size={24} />
-        Download
+    <div className="flex items-center py-3 border-b border-white/[0.05] last:border-none">
+      <div className="text-[10px] font-bold text-blue-400 px-2 flex flex-col items-center justify-center shrink-0 w-16">
+        <DownloadIcon className="mb-1" size={20} />
+        <span className="uppercase tracking-wider">Pull</span>
       </div>
-      <div className="grow">
-        <div className="text-xs text-center">
+      <div className="grow flex flex-col justify-center px-2 pr-4 min-w-0">
+        <div className="text-xs text-center w-full">
           {getStatus()}
         </div>
         {getProgress()}
       </div>
-      <div>
+      <div className="shrink-0 flex items-center pr-2">
         <button
           type="button"
-          className="text-gray-500 p-2"
+          className="text-white/20 hover:text-white/60 hover:bg-white/5 p-1.5 rounded-full transition-colors"
           onClick={() => void clearTransfer(data.id)}
         >
           <X size={16} />
         </button>
-      </div >
-    </div >
+      </div>
+    </div>
   );
 }

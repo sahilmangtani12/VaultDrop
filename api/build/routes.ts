@@ -32,7 +32,7 @@ const koaAuthenticationRecasted = koaAuthentication as (req: KRequest, securityN
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 
 const models: TsoaRoute.Models = {
-    "DabihInfo": {
+    "AppInfo": {
         "dataType": "refObject",
         "properties": {
             "version": {"dataType":"string","required":true},
@@ -487,7 +487,7 @@ export function RegisterRoutes(router: KoaRouter) {
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsUtilController_info: Record<string, TsoaRoute.ParameterSchema> = {
         };
-        router.get('/info',
+        router.get('/',
             ...(fetchMiddlewares<Middleware>(UtilController)),
             ...(fetchMiddlewares<Middleware>(UtilController.prototype.info)),
 
@@ -1586,6 +1586,37 @@ export function RegisterRoutes(router: KoaRouter) {
 
             return templateService.apiHandler({
               methodName: 'listShared',
+              controller,
+              context,
+              validatedArgs,
+              successStatus: undefined,
+            });
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        const argsFilesystemController_listTrash: Record<string, TsoaRoute.ParameterSchema> = {
+                request: {"in":"request","name":"request","required":true,"dataType":"object"},
+        };
+        router.get('/fs/list/trash',
+            authenticateMiddleware([{"api_key":["dabih:api"]}]),
+            ...(fetchMiddlewares<Middleware>(FilesystemController)),
+            ...(fetchMiddlewares<Middleware>(FilesystemController.prototype.listTrash)),
+
+            async function FilesystemController_listTrash(context: Context, next: Next) {
+
+            let validatedArgs: any[] = [];
+            try {
+              validatedArgs = templateService.getValidatedArgs({ args: argsFilesystemController_listTrash, context, next });
+            } catch (err) {
+              const error = err as any;
+              error.message ||= JSON.stringify({ fields: error.fields });
+              context.status = error.status;
+              context.throw(context.status, error.message, error);
+            }
+
+            const controller = new FilesystemController();
+
+            return templateService.apiHandler({
+              methodName: 'listTrash',
               controller,
               context,
               validatedArgs,

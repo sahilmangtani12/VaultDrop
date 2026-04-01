@@ -56,7 +56,7 @@ export default function OptionsMenu() {
   return (
     <div ref={ref}>
       <div
-        className="w-52 z-10 absolute glass-strong rounded-xl p-1 text-sm text-white/80 transition duration-100 ease-out data-closed:scale-95 data-closed:opacity-0"
+        className="w-52 z-50 fixed glass-strong border border-white/10 rounded-xl p-1 text-sm text-white/80 shadow-2xl transition duration-100 ease-out data-closed:scale-95 data-closed:opacity-0"
         style={position}>
         <div>
           <button

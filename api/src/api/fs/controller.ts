@@ -24,6 +24,7 @@ import list from './list';
 import searchStart from './searchStart';
 import searchResults from './searchResults';
 import searchCancel from './searchCancel';
+import listTrash from './listTrash';
 
 import {
   type AddDirectoryBody,
@@ -180,6 +181,15 @@ export class FilesystemController extends Controller {
   ): Promise<ListResponse> {
     const { user } = request;
     return listShared(user);
+  }
+
+  @Get('list/trash')
+  @OperationId('listTrash')
+  public async listTrash(
+    @Request() request: RequestWithUser,
+  ): Promise<ListResponse> {
+    const { user } = request;
+    return listTrash(user);
   }
 
   @Get('{mnemonic}/list')

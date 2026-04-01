@@ -1,7 +1,7 @@
 "use client";
 
 import Inode from "./inode/Inode";
-import DragOverlay from "./DragOverlay";
+
 import ParentDirectory from "./inode/ParentDirectory";
 import Parents from "./inode/Parents";
 import useFinder from "./Context";
@@ -33,7 +33,6 @@ export default function Files() {
           {nodes.map((inode) => (
             <Inode key={inode.mnemonic} inode={inode} />
           ))}
-          <DragOverlay />
         </div>
       </div>
       <Parents />

@@ -149,7 +149,7 @@ function InodeInner({
               e.stopPropagation();
               setName(inode.name);
             }}
-            className={`max-w-full px-2 py-0.5 mt-1 rounded text-center line-clamp-2 text-wrap break-words w-full text-xs font-medium transition-colors duration-200 ${(selected && !name) ? "text-white bg-blue-500/80 shadow-sm" : ""}`}>
+            className={`max-w-[80px] w-[80px] px-1 py-0.5 mt-0 rounded text-center font-medium transition-colors duration-200 ${(selected && !name) ? "text-white bg-blue-500/80 shadow-sm" : ""}`}>
             {getName()}
           </div>
         </div>
@@ -178,7 +178,7 @@ function InodeInner({
                 e.stopPropagation();
                 setName(inode.name);
               }}
-              className={`max-w-full px-2 py-0.5 mt-1 rounded text-center line-clamp-2 text-wrap break-words w-full text-xs font-medium transition-colors duration-200 ${(selected) ? "text-white bg-blue-500/80 shadow-sm" : ""}`}>
+              className={`max-w-[80px] w-[80px] px-1 py-0.5 mt-0 rounded text-center font-medium transition-colors duration-200 ${(selected) ? "text-white bg-blue-500/80 shadow-sm" : ""}`}>
               {getName()}
             </div>
           </div>
@@ -195,7 +195,7 @@ function InodeInner({
           <div className={`m-1 relative rounded-lg ${(selected) ? "bg-white/[0.08]" : ""}`}>
             <Icon inode={inode} />
           </div>
-          <div className={`max-w-full px-1 rounded ${(selected) ? "text-white bg-white/[0.15]" : ""}`}>
+          <div className={`max-w-[80px] w-[80px] px-1 mt-0 rounded text-center ${(selected) ? "text-white bg-white/[0.15]" : ""}`}>
             {inode.name}
           </div>
         </div>
@@ -209,7 +209,7 @@ function InodeInner({
       <div className={`m-1 relative rounded-lg ${(selected) ? "bg-white/[0.08]" : ""}`}>
         <Icon inode={inode} />
       </div>
-      <div className={`max-w-full px-1 text-[10px] rounded ${(selected) ? "text-white bg-white/[0.15]" : ""}`}>
+      <div className={`max-w-[80px] w-[80px] px-1 mt-0 rounded text-center ${(selected) ? "text-white bg-white/[0.15]" : ""}`}>
         <FileName fileName={inode.name} />
       </div>
     </div>

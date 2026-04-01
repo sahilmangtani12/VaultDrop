@@ -3,10 +3,10 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router';
 import { GitHub } from 'react-feather';
 
-import type { DabihInfo } from './lib/api/types';
+import type { AppInfo } from './lib/api/types';
 
 export default function Footer() {
-  const [info, setInfo] = useState<DabihInfo | null>(null);
+  const [info, setInfo] = useState<AppInfo | null>(null);
 
   useEffect(() => {
     const fetchInfo = async () => {
@@ -29,13 +29,13 @@ export default function Footer() {
             <div className="space-y-3">
               <div className="flex items-center gap-2.5">
                 <img
-                  src="/images/vaultdrop-logo.png"
-                  alt="VaultDrop"
+                  src={info?.branding.department.logo || "/images/vaultdrop-logo.png"}
+                  alt={info?.branding.department.name || "VaultDrop"}
                   className="w-6 h-6 object-contain"
                   width={24}
                   height={24}
                 />
-                <span className="text-white/90 font-semibold text-sm">VaultDrop</span>
+                <span className="text-white/90 font-semibold text-sm">{info?.branding.department.name || "VaultDrop"}</span>
               </div>
               <p className="text-xs leading-relaxed text-white/30">
                 End-to-end encrypted cloud storage.

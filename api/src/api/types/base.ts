@@ -82,7 +82,7 @@ export interface SignInResponse {
   token?: string;
 }
 
-export interface DabihInfo {
+export interface AppInfo {
   version: string;
   branding: {
     admin: {

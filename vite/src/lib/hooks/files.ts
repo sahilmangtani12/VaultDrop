@@ -16,6 +16,7 @@ interface Actions {
   list: (mnemonic: string | null) => Promise<void>;
   search: (query: string) => Promise<void>;
   shared: () => Promise<void>;
+  trash: () => Promise<void>;
   fetchResults: () => Promise<void>;
 }
 
@@ -59,6 +60,20 @@ const useFiles = create<State & Actions>((set, get) => ({
   },
   async shared() {
     const { data } = await api.fs.listShared();
+    if (!data) {
+      return;
+    }
+    set({
+      nodes: data.children,
+      parents: data.parents,
+      cwd: null,
+      query: undefined,
+      jobId: undefined,
+      searchStatus: "idle",
+    });
+  },
+  async trash() {
+    const { data } = await api.fs.listTrash();
     if (!data) {
       return;
     }

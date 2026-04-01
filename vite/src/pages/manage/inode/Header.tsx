@@ -53,30 +53,27 @@ export default function Header() {
             search(query).catch(console.error);
             e.preventDefault();
           }}>
-            <div className="flex items-center gap-1.5">
+            <div className="flex items-center gap-1.5 border border-white/5 rounded-full bg-black/20 focus-within:bg-black/40 transition-colors group">
               <div className="relative flex items-center">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <Search size={14} className="text-white/40 group-focus-within:text-white/70 transition-colors" />
+                </div>
                 <input
                   type="text"
-                  className="glass rounded-full px-3 py-1 text-xs text-white/80 placeholder-white/20 focus:outline-none focus:ring-1 focus:ring-white/20"
-                  placeholder="Search..."
+                  className="block w-48 sm:w-64 pl-9 pr-8 py-1.5 border-0 bg-transparent rounded-full text-xs text-white placeholder-white/40 focus:outline-none transition-all"
+                  placeholder="Search in your drive..."
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
                 />
                 <button
                   hidden={!query}
-                  onClick={() => setQuery("")}
-                  className="absolute text-white/30 right-2 hover:text-white/60 transition-colors"
-                  type="reset">
+                  onClick={() => { setQuery(""); list(null).catch(console.error); }}
+                  className="absolute text-white/40 right-2 hover:text-white hover:bg-white/10 p-0.5 rounded-full transition-colors"
+                  type="reset"
+                >
                   <X size={14} />
                 </button>
               </div>
-              <button
-                type="submit"
-                className="glass rounded-lg px-2 py-1.5 text-white/50 hover:text-white/80 hover:bg-white/[0.06] transition-all duration-200 disabled:opacity-30"
-                disabled={!query}
-              >
-                <Search size={14} />
-              </button>
             </div>
           </form>
         </div>

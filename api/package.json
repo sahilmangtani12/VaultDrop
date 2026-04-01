@@ -1,6 +1,6 @@
 {
-  "name": "dabih-api",
-  "version": "2.2.15",
+  "name": "vaultdrop-api",
+  "version": "1.0.0",
   "description": "Dabih API Server",
   "repository": "",
   "main": "index.js",

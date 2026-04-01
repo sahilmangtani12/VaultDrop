@@ -8,10 +8,11 @@ import {
   User as UserIcon,
   LogOut,
   Settings,
-  Menu,
+  Menu as FeatherMenu,
   X,
   Play,
 } from 'react-feather';
+import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/react';
 
 import NavItem from './NavItem';
 import useSession from './Session';
@@ -89,17 +90,41 @@ export default function Header() {
   state[page] = 'active';
 
   // Map page to nav index for the indicator
-  const navOrder = ['start', 'signin', 'key', 'manage', 'simulate', 'profile'];
+  const navOrder = ['start', 'manage', 'simulate'];
   const activeIndex = navOrder.indexOf(page);
 
   const getSignIn = () => {
     if (hasUser) {
       return (
-        <button onClick={() => signOut()} type="button">
-          <NavItem href="" state="enabled" label="Sign Out">
-            <LogOut size={14} />
-          </NavItem>
-        </button>
+        <Menu as="div" className="relative inline-block text-left">
+          <MenuButton className="flex items-center justify-center w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 border border-white/5 transition-colors text-white/80 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/50 shrink-0">
+            <UserIcon size={14} />
+          </MenuButton>
+
+          <MenuItems
+            transition
+            className="absolute right-0 mt-3 w-48 origin-top-right rounded-2xl bg-[#0f111a]/95 backdrop-blur-3xl border border-white/10 shadow-2xl focus:outline-none overflow-hidden transition duration-200 ease-out data-[closed]:scale-95 data-[closed]:opacity-0"
+          >
+            <div className="p-1.5 flex flex-col gap-0.5">
+               <MenuItem>
+                 <Link to="/profile" className="group flex items-center gap-3 w-full px-3 py-2.5 text-[13px] font-medium text-white/70 hover:text-white hover:bg-white/[0.06] rounded-xl transition-colors">
+                    <Settings size={14} className="text-white/40 group-hover:text-white/80" /> Settings
+                 </Link>
+               </MenuItem>
+               <MenuItem>
+                 <Link to="/key" className="group flex items-center gap-3 w-full px-3 py-2.5 text-[13px] font-medium text-white/70 hover:text-white hover:bg-white/[0.06] rounded-xl transition-colors">
+                    <Key size={14} className="text-white/40 group-hover:text-white/80" /> Encryption Key
+                 </Link>
+               </MenuItem>
+               <div className="h-px bg-white/5 my-1 mx-2" />
+               <MenuItem>
+                 <button onClick={() => signOut()} className="group flex items-center gap-3 w-full px-3 py-2.5 text-[13px] font-medium text-red-400/80 hover:text-red-400 hover:bg-red-500/10 rounded-xl transition-colors text-left">
+                    <LogOut size={14} className="opacity-70 group-hover:opacity-100" /> Sign Out
+                 </button>
+               </MenuItem>
+            </div>
+          </MenuItems>
+        </Menu>
       );
     }
     return (
@@ -128,11 +153,11 @@ export default function Header() {
 
         {/* Mobile toggle */}
         <button
-          className="lg:hidden text-white/50 hover:text-white/90 p-1 rounded-lg hover:bg-white/[0.06] transition-all duration-200"
+          className="lg:hidden text-white/50 hover:text-white/90 p-1.5 rounded-lg hover:bg-white/[0.06] transition-all duration-200 ml-auto mr-2"
           onClick={() => setMobileOpen(!mobileOpen)}
           aria-label="Toggle navigation"
         >
-          {mobileOpen ? <X size={16} /> : <Menu size={16} />}
+          {mobileOpen ? <X size={16} /> : <FeatherMenu size={16} />}
         </button>
 
         {/* Desktop Nav — compact horizontal with liquid indicator */}
@@ -141,20 +166,11 @@ export default function Header() {
           <NavItem href="/" state={state.start} label="Home">
             <Home size={14} />
           </NavItem>
-          <NavItem href="/signin" state={state.signin} label="Account">
-            <UserPlus size={14} />
-          </NavItem>
-          <NavItem href="/key" state={state.key} label="Key">
-            <Key size={14} />
-          </NavItem>
-          <NavItem href="/manage" state={state.manage} label="Manage">
+          <NavItem href="/manage" state={state.manage} label="Files">
             <Share2 size={14} />
           </NavItem>
           <NavItem href="/simulate" state={state.simulate} label="Simulate">
             <Play size={14} />
-          </NavItem>
-          <NavItem href="/profile" state={state.profile} label="Settings">
-            <Settings size={14} />
           </NavItem>
           <div className="w-px h-5 bg-white/[0.08] mx-1" />
           {getSignIn()}
@@ -167,20 +183,11 @@ export default function Header() {
           <NavItem href="/" state={state.start} label="Home">
             <Home size={14} />
           </NavItem>
-          <NavItem href="/signin" state={state.signin} label="Account">
-            <UserPlus size={14} />
-          </NavItem>
-          <NavItem href="/key" state={state.key} label="Key">
-            <Key size={14} />
-          </NavItem>
           <NavItem href="/manage" state={state.manage} label="Manage">
             <Share2 size={14} />
           </NavItem>
           <NavItem href="/simulate" state={state.simulate} label="Simulate">
             <Play size={14} />
-          </NavItem>
-          <NavItem href="/profile" state={state.profile} label="Settings">
-            <Settings size={14} />
           </NavItem>
           <div className="w-px h-5 bg-white/[0.08]" />
           {getSignIn()}

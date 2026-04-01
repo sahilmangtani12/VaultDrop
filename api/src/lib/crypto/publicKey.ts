@@ -31,17 +31,10 @@ class CustomPublicKeyObject {
 }
 
 const fromJwk = (key: JsonWebKey) => {
-  if (USE_NATIVE_CRYPTO) {
-    const publicKey = createPublicKey({
-      key,
-      format: 'jwk',
-    });
-    return publicKey;
-  }
-  return new CustomPublicKeyObject({
-    n: bufferToBigInt(Buffer.from(base64url.toUint8(key.n as string))),
-    e: bufferToBigInt(Buffer.from(base64url.toUint8(key.e as string))),
-  }) as unknown as KeyObject;
+  return createPublicKey({
+    key,
+    format: 'jwk',
+  });
 };
 
 const toJwk = (key: KeyObject) => {
@@ -69,7 +62,12 @@ const encrypt = (key: KeyObject, base64: string) => {
     return base64url.fromUint8(result);
   }
   
-  const customKey = key as unknown as CustomPublicKeyObject;
+  const jwk = key.export({ format: 'jwk' });
+  const customKey = new CustomPublicKeyObject({
+    n: bufferToBigInt(Buffer.from(base64url.toUint8(jwk.n as string))),
+    e: bufferToBigInt(Buffer.from(base64url.toUint8(jwk.e as string))),
+  });
+
   const k = Math.ceil(customKey.rsaParams.n.toString(16).length / 2);
   const em = oaepEncode(Buffer.from(buffer), k);
   const m = bufferToBigInt(em);
@@ -82,6 +80,7 @@ const encrypt = (key: KeyObject, base64: string) => {
 const toHash = (key: KeyObject) => {
   const hasher = createHash('sha256');
   const buffer = key.export({ type: 'spki', format: 'der' }) as Buffer;
+  
   hasher.update(buffer);
   return hasher.digest('base64url');
 }

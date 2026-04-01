@@ -16,23 +16,20 @@ export default function Manage() {
   }
 
   return (
-    <div className="pt-2 px-6 h-screen flex overflow-hidden max-w-[1600px] mx-auto">
+    <div className="pt-16 md:pt-20 px-4 md:px-8 h-screen w-full flex flex-col overflow-hidden max-w-7xl mx-auto">
       <FinderWrapper>
+        <TopBar />
         <Sidebar />
         
-        <div className="flex-1 flex flex-col h-full overflow-hidden pl-6 py-4">
-          <TopBar />
+        <div className="relative flex flex-row gap-6 flex-1 overflow-hidden pb-6">
+          {/* Files Grid - Always takes full remaining width */}
+          <div className="flex-1 h-full w-full relative overflow-hidden">
+            <Files />
+          </div>
           
-          <div className="relative flex flex-row gap-6 flex-1 overflow-hidden">
-            {/* Files Grid - Always takes full remaining width */}
-            <div className="flex-1 overflow-y-auto pr-2 pb-10 custom-scrollbar w-full">
-              <Files />
-            </div>
-            
-            {/* Info Pane Overlay - Absolutely positioned on the right */}
-            <div className="absolute right-0 top-0 h-full w-80 pr-1 pb-10 pointer-events-none z-10">
-              <Info />
-            </div>
+          {/* Info Pane Overlay - Absolutely positioned on the right */}
+          <div className="absolute right-0 top-0 h-full w-80 pr-1 pb-4 pointer-events-none z-10 hidden xl:block">
+            <Info />
           </div>
         </div>
       </FinderWrapper>

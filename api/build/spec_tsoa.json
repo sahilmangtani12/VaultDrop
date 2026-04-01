@@ -7,7 +7,7 @@
 		"requestBodies": {},
 		"responses": {},
 		"schemas": {
-			"DabihInfo": {
+			"AppInfo": {
 				"properties": {
 					"version": {
 						"type": "string"
@@ -1280,8 +1280,8 @@
 		}
 	},
 	"info": {
-		"title": "dabih-api",
-		"version": "2.2.15",
+		"title": "vaultdrop-api",
+		"version": "1.0.0",
 		"description": "Dabih API Server",
 		"license": {
 			"name": "MIT"
@@ -1326,7 +1326,7 @@
 				"parameters": []
 			}
 		},
-		"/info": {
+		"/": {
 			"get": {
 				"operationId": "info",
 				"responses": {
@@ -1335,7 +1335,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/DabihInfo"
+									"$ref": "#/components/schemas/AppInfo"
 								}
 							}
 						}
@@ -2466,6 +2466,34 @@
 		"/fs/list/shared": {
 			"get": {
 				"operationId": "listShared",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ListResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Filesystem"
+				],
+				"security": [
+					{
+						"api_key": [
+							"dabih:api"
+						]
+					}
+				],
+				"parameters": []
+			}
+		},
+		"/fs/list/trash": {
+			"get": {
+				"operationId": "listTrash",
 				"responses": {
 					"200": {
 						"description": "Ok",

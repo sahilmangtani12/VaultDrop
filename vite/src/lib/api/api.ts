@@ -123,6 +123,7 @@ const init = (baseUrl: string) => {
       return c.GET('/fs/{mnemonic}/list', { params: { path: { mnemonic } } });
     },
     listShared: () => c.GET('/fs/list/shared'),
+    listTrash: () => c.GET('/fs/list/trash'),
     searchStart: (body: schemas['InodeSearchBody']) =>
       c.POST('/fs/search', { body }),
     searchResults: (jobId: string) =>

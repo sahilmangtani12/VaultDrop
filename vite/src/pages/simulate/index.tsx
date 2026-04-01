@@ -30,7 +30,7 @@ const STORY_SLIDES = [
   {
     title: "5. The Blind Vault (Zero Knowledge!)",
     icon: <div className="flex items-center gap-10 mt-4"><Trash2 size={70} className="text-red-500 animate-bounce"/><ArrowRight size={30} className="text-white/20"/><Database size={100} className="text-purple-400"/></div>,
-    simpleSummary: "The server permanently throws away its copy of the One-Time Password into the incinerator. It then dumps the scrambled file and the locked box into the cold storage vault. Dabih is now permanently blind.",
+    simpleSummary: "The server permanently throws away its copy of the One-Time Password into the incinerator. It then dumps the scrambled file and the locked box into the cold storage vault. VaultDrop is now permanently blind.",
     techDetails: "Raw AES keys are flushed entirely from the ephemeral Redis cache. Database only persists ciphertext chunks and the client-encrypted RSA blob."
   },
   {
@@ -56,7 +56,7 @@ function StoryMode() {
         <div>
           <h1 className="text-4xl font-black text-white tracking-tight flex items-center gap-4">
             <Shield className="text-indigo-400" size={36} />
-            How Dabih Works
+            How VaultDrop Works
           </h1>
           <p className="text-white/60 mt-2 text-lg font-medium">An interactive storybook explaining End-to-End Encryption in simple terms.</p>
         </div>
@@ -91,11 +91,11 @@ function StoryMode() {
           </div>
       </div>
 
-      <div className="flex items-center justify-between mt-8">
-         <button disabled={activeSlide === 0} onClick={prevSlide} className="px-6 py-4 flex items-center gap-3 font-extrabold text-white/50 hover:text-white disabled:opacity-20 transition-all rounded-full hover:bg-white/5 uppercase tracking-widest">
+      <div className="flex items-center justify-between mt-8 w-full md:w-auto md:gap-8">
+         <button disabled={activeSlide === 0} onClick={prevSlide} className="px-6 py-4 flex items-center justify-center gap-3 font-extrabold text-white/50 hover:text-white disabled:opacity-20 disabled:pointer-events-none transition-all rounded-full hover:bg-white/5 uppercase tracking-widest flex-1 md:flex-none">
             <ArrowLeft size={24} /> Back
          </button>
-         <button disabled={activeSlide === STORY_SLIDES.length - 1} onClick={nextSlide} className="px-8 py-4 bg-white text-black flex items-center gap-3 font-extrabold disabled:opacity-20 hover:scale-105 active:scale-95 transition-all rounded-full uppercase tracking-widest shadow-[0_0_20px_rgba(255,255,255,0.3)]">
+         <button disabled={activeSlide === STORY_SLIDES.length - 1} onClick={nextSlide} className="px-8 py-4 bg-white text-black flex items-center justify-center gap-3 font-extrabold disabled:opacity-20 disabled:pointer-events-none hover:scale-105 active:scale-95 transition-all rounded-full uppercase tracking-widest shadow-[0_0_20px_rgba(255,255,255,0.3)] disabled:shadow-none flex-1 md:flex-none">
             Next Step <ArrowRight size={24} />
          </button>
       </div>
@@ -291,7 +291,7 @@ function LiveSimulationMode() {
            <div className="flex items-center gap-3 border-b border-white/10 pb-4">
             <div className="w-10 h-10 rounded-full bg-amber-500/20 flex items-center justify-center shrink-0"><Server className="text-amber-400" size={20} /></div>
             <div>
-              <h2 className="text-white font-semibold flex items-center gap-2">Dabih Node Server</h2>
+              <h2 className="text-white font-semibold flex items-center gap-2">VaultDrop Node Server</h2>
               <span className="text-xs text-white/40">Temporary Processing</span>
             </div>
           </div>

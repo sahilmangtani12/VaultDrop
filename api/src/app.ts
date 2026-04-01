@@ -45,7 +45,7 @@ const app = async (port?: number) => {
 
   const lPort = port?.toString() ?? getEnv('PORT', '8080');
   const state = app.listen(lPort);
-  logger.info(`API server listening on port ${lPort}`);
+  logger.info(`VaultDrop API listening on port ${lPort}`);
   state.on('close', () => {
     redis.quit().catch((err) => {
       logger.error(`Error closing redis: ${err}`);

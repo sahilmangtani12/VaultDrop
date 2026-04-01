@@ -7,6 +7,7 @@ import crypto from '@/lib/crypto';
 
 import { InodeMembers, InodeType, Permission, UserResponse } from '@/lib/api/types';
 import Menu from './Menu';
+import DragOverlay from './DragOverlay';
 import useFiles from '@/lib/hooks/files';
 import useSession from '@/Session';
 
@@ -363,6 +364,7 @@ export function FinderWrapper({ children }: {
         sensors={sensors}
       >
         {children}
+        <DragOverlay />
       </DndContext>
     </FinderContext.Provider>
   );

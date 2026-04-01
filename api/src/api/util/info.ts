@@ -2,9 +2,9 @@ import { getEnv } from '#lib/env';
 import { Omit } from '@prisma/client/runtime/library';
 import { readFile } from 'fs/promises';
 import yaml from 'js-yaml';
-import { DabihInfo } from '../types';
+import { AppInfo } from '../types/base';
 
-type YamlInfo = Omit<DabihInfo, 'version'>;
+type YamlInfo = Omit<AppInfo, 'version'>;
 
 export default async function info() {
   const path = getEnv('INFO_PATH', `${process.cwd()}/info.yaml`)!;
@@ -13,5 +13,5 @@ export default async function info() {
 
   const packageJson = await readFile('package.json', 'utf-8');
   const p = JSON.parse(packageJson) as { version: string };
-  return { ...data, version: p.version };
+  return { ...data, version: p.version } as AppInfo;
 }
