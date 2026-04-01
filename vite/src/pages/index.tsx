@@ -2,10 +2,6 @@ import BrowserSupport from "@/util/BrowserSupport";
 import { Link } from "react-router";
 import { Shield, Share2, Key, ArrowRight, Lock, Cloud, HardDrive } from "react-feather";
 
-import { DabihInfo } from "@/lib/api/types";
-import { useEffect, useState } from "react";
-import api from "@/lib/api";
-
 
 function FeatureCard({
   icon,
@@ -38,30 +34,6 @@ function StatPill({ value, label }: { value: string; label: string }) {
 
 
 export default function Home() {
-  const [info, setInfo] = useState<DabihInfo | null>(null);
-  const d = info?.branding?.department || {
-    name: "",
-    logo: undefined,
-    url: ""
-  }
-  const o = info?.branding?.organization || {
-    name: "",
-    logo: undefined,
-    url: ""
-  };
-
-  useEffect(() => {
-    const fetchInfo = async () => {
-      const { data } = await api.util.info();
-      if (!data) {
-        console.error('Failed to fetch info');
-        return;
-      }
-      setInfo(data);
-    };
-    void fetchInfo();
-  }, []);
-
   return (
     <div className="min-h-screen -mx-6 -mb-6">
       <BrowserSupport />

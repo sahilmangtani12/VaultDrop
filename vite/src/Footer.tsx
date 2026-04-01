@@ -20,10 +20,6 @@ export default function Footer() {
     void fetchInfo();
   }, []);
 
-  const branding = info?.branding;
-  const department = branding?.department;
-  const organization = branding?.organization;
-
   return (
     <footer className="relative z-10 mt-auto">
       <div className="glass-light rounded-t-3xl mx-4 mb-0">
@@ -62,24 +58,8 @@ export default function Footer() {
               </ul>
             </div>
 
-            {/* Org */}
-            <div className="space-y-3">
-              {/* <h4 className="text-white/50 text-[10px] font-semibold uppercase tracking-[0.15em]">Organization</h4> */}
-              <div className="space-y-1.5 text-xs">
-                {/* {department && (
-                  <a href={department.url ?? '#'} target="_blank" rel="noopener noreferrer" className="text-white/30 hover:text-white/70 transition-colors duration-300 flex items-center gap-2">
-                    {department.logo && <img src={department.logo} alt={department.name} className="w-4 h-4 object-contain opacity-40" />}
-                    {department.name}
-                  </a>
-                )}
-                {organization && (
-                  <a href={organization.url ?? '#'} target="_blank" rel="noopener noreferrer" className="text-white/30 hover:text-white/70 transition-colors duration-300 flex items-center gap-2">
-                    {organization.logo && <img src={organization.logo} alt={organization.name} className="w-4 h-4 object-contain opacity-40" />}
-                    {organization.name}
-                  </a>
-                )} */}
-              </div>
-            </div>
+            {/* Note: Organization block removed by user request */}
+            <div className="hidden"></div>
           </div>
 
           {/* Bottom */}
