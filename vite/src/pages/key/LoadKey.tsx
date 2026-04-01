@@ -2,16 +2,16 @@
 
 import { useState } from 'react';
 
-import { Camera, File, Key } from 'react-feather';
+import { /* Camera, */ File, Key } from 'react-feather';
 import crypto from '@/lib/crypto';
 import { Dropzone } from '@/util';
 import ErrorDialog from '@/dialog/Error';
-import WebcamDialog from '@/dialog/Webcam';
+// import WebcamDialog from '@/dialog/Webcam';
 import useSession from '@/Session';
 
 export default function LoadKey() {
   const [error, setError] = useState<string | null>(null);
-  const [showWebcam, setShowWebcam] = useState(false);
+  // const [showWebcam, setShowWebcam] = useState(false);
   const { saveKey } = useSession();
 
 
@@ -29,7 +29,7 @@ export default function LoadKey() {
     }
   };
 
-  const onScan = async (data: string) => {
+  /* const onScan = async (data: string) => {
     try {
       const key = await crypto.privateKey.fromJSON(data);
       await saveKey(key);
@@ -40,22 +40,23 @@ export default function LoadKey() {
       }
       setError('Failed to read private key from QR Code');
     }
-  };
+  }; */
 
 
   return (
     <div className="py-8">
       <ErrorDialog message={error} onClose={() => setError(null)} />
-      <WebcamDialog
+      {/* <WebcamDialog
         show={showWebcam}
         onSubmit={onScan}
         onError={(e: string) => setError(e)}
         onClose={() => setShowWebcam(false)}
-      />
+      /> */}
       <h2 className="text-xl font-bold text-white mb-4">
         Load your existing key
       </h2>
-      <div className="lg:grid gap-4 grid-cols-2">
+      <div className="flex flex-col items-center justify-center">
+        {/* <div className="lg:grid gap-4 grid-cols-2">
         <div className="glass-card rounded-2xl p-8 flex flex-col items-center justify-center text-center min-h-[260px]">
           <img
             src="/images/vaultdrop-qr.svg"
@@ -75,8 +76,8 @@ export default function LoadKey() {
           <p className="pt-4 text-white/30 text-xs leading-relaxed">
             Use your webcam to scan<br />your key from a QR Code
           </p>
-        </div>
-        <div className="min-h-[260px]">
+        </div> */}
+        <div className="min-h-[260px] w-full max-w-xl">
           <Dropzone
             onFile={onFile}
             onError={(e: string) => setError(e)}
